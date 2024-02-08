@@ -2,8 +2,15 @@
 
 using namespace std;
 
+struct{
+    string name;
+    string surname;
+    int hwRes;
+    int exRes;
+} User;
+
 int main()
 {
-    cout<<"Hello";
+
     return 0;
 }
