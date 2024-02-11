@@ -4,21 +4,21 @@
 
 using namespace std;
 
-const int N = 1;
-const int H = 3;
+const int N = 1; // studentu skaicius
+const int H = 4; // namu darbu skaicius
 
 struct User
 {
-    string name;
-    string surname;
-    int hwRes[H];
-    int exRes;
+    string name;    // vardas
+    string surname; // pavarde
+    int hwRes[H];   // namu darbu rezultatai
+    int exRes;      // egzamino rezultatai
 };
 
-void Read(User stud[]);
-void Result(User stud[]);
-double Average(User stud);
-double Median(User stud);
+void Read(User stud[]);    // skaitymo funkcija
+void Result(User stud[]);  // rezultatu isvedimo i ekrana funkcija
+double Average(User stud); // galutinio vidurkio skaiciavimo funkcija
+double Median(User stud);  // galutines medianos skaiciavimo funkcija
 
 int main()
 {
@@ -43,7 +43,7 @@ void Read(User stud[])
 
 void Result(User stud[])
 {
-    cout << "Pavarde    Vardas       Galutinis (Vid.)      Galutinis (Med.)" << endl;
+    cout << "Pavarde    Vardas       Galutinis (Vid.)   /   Galutinis (Med.)" << endl;
     cout << "--------------------------------------------------------------" << endl;
     cout << fixed << setprecision(2);
     for (int i = 0; i < N; i++)
