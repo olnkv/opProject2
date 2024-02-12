@@ -35,7 +35,7 @@ void Read(vector<User> &stud)
     vector<int> hwRes;
     while (true)
     {
-        cout << "Vardas (\"exit\", kad baigti): ";
+        cout << "Vardas (\"exit\", kad uzbaigti): ";
         cin >> name;
         if (name == "exit")
             break;
@@ -43,7 +43,7 @@ void Read(vector<User> &stud)
         cin >> surname;
         while (true)
         {
-            cout << "Namu darbu pazymys (\"-1\", kad baigti): ";
+            cout << "Namu darbu pazymys (\"-1\", kad uzbaigti): ";
             cin >> hw;
             if (hw == -1)
                 break;
@@ -67,7 +67,7 @@ void Result(vector<User> &stud)
     cout << fixed << setprecision(2);
     for (const auto &i : stud)
         cout << i.name << setw(15) << right << i.surname << setw(15) << right
-             << Average(i) << setw(17) << right << Median(i) << endl;
+             << Average(i) << setw(20) << right << Median(i) << endl;
 }
 
 double Average(User stud)
