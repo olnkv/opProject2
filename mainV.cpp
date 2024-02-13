@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <vector>
+#include <random>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ void Read(vector<User> &stud);   // skaitymo funkcija
 void Result(vector<User> &stud); // rezultatu isvedimo i ekrana funkcija
 double Average(User stud);       // galutinio vidurkio skaiciavimo funkcija
 double Median(User stud);        // galutines medianos skaiciavimo funkcija
+int RandNumber();                // atstiktinio skaiciaus 1-10 generavimas
 
 int main()
 {
@@ -28,11 +30,36 @@ int main()
     return 0;
 }
 
+int RandNumber()
+{
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(1, 10);
+    return dis(gen);
+}
+
 void Read(vector<User> &stud)
 {
     string name, surname;
     int exRes, hw;
     vector<int> hwRes;
+
+    int choice;
+    cout << "Programos eigos pasirinkimas -  (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius;\n\"3\" - generuoti ir pazymius ir studentu vardus; \"4\" - baigti darba): ";
+    cin >> choice;
+
+    if (choice == 4)
+    {
+        cout<<"Programos uzdarymas"<<endl;
+        exit(0);
+    }
+        
+    if (choice == 3)
+    {
+        //Nebuvo uzduotyje
+        exit(0);
+    }
+
     while (true)
     {
         cout << "Vardas (\"exit\", kad uzbaigti): ";
@@ -41,16 +68,28 @@ void Read(vector<User> &stud)
             break;
         cout << "Pavarde: ";
         cin >> surname;
-        while (true)
+
+        if (choice == 2)
         {
-            cout << "Namu darbu pazymys (\"-1\", kad uzbaigti): ";
-            cin >> hw;
-            if (hw == -1)
-                break;
-            hwRes.push_back(hw);
+            int n = 5; // pazymiu skaicius
+            for (int i = 0; i < 5; i++)
+                hwRes.push_back(RandNumber());
+            exRes = RandNumber();
         }
-        cout << "Egzamino pazymys: ";
-        cin >> exRes;
+        else
+        {
+            while (true)
+            {
+                cout << "Namu darbu pazymys (\"-1\", kad uzbaigti): ";
+                cin >> hw;
+                if (hw == -1)
+                    break;
+                hwRes.push_back(hw);
+            }
+            cout << "Egzamino pazymys: ";
+            cin >> exRes;
+        }
+
         User temp;
         temp.name = name;
         temp.surname = surname;
