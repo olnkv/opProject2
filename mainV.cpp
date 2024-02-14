@@ -1,4 +1,4 @@
-//Kompiliavimo komanda mac'ui: clang++ -std=c++11 -stdlib=libc++ -o prog mainV.cpp
+// Kompiliavimo komanda mac'ui: clang++ -std=c++11 -stdlib=libc++ -o prog mainV.cpp
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
@@ -10,6 +10,7 @@ using namespace std;
 const vector<string> nameList{"Nojus", "Domas", "Arvydas", "Rokas", "Vytautas", "Aurimas", "Joris", "Ramunas", "Povilas", "Mindaugas"};
 const vector<string> surnameList{"Vaicekauskas", "Kateiva", "Kardauskas", "Zalionis", "Norkus", "Ozelis", "Stasiunas", "Oginskas", "Petrauskas", "Pakuckas"};
 const int paz = 5; // pazymiu skaicius
+const int st = 10; // generuojamu studentu skaicius
 
 struct User
 {
@@ -50,7 +51,7 @@ void Read(vector<User> &stud)
     vector<int> hwRes;
 
     int choice;
-    cout << "Programos eigos pasirinkimas -  (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius;\n\"3\" - generuoti ir pazymius ir studentu vardus; \"4\" - baigti darba): ";
+    cout << "Programos eigos pasirinkimas -  (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius;\n\"3\" - generuoti pazymius, bei studentu vardus; \"4\" - baigti darba): ";
     cin >> choice;
 
     if (choice == 4)
@@ -61,7 +62,7 @@ void Read(vector<User> &stud)
 
     if (choice == 3)
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < st; i++)
         {
             name = nameList[RandNumber() - 1];
             surname = surnameList[RandNumber() - 1];
@@ -90,8 +91,7 @@ void Read(vector<User> &stud)
 
             if (choice == 2)
             {
-                int n = 5; // pazymiu skaicius
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < paz; i++)
                     hwRes.push_back(RandNumber());
                 exRes = RandNumber();
             }
@@ -126,7 +126,7 @@ void Result(vector<User> &stud)
     cout << "----------------------------------------------------------------" << endl;
     cout << fixed << setprecision(2);
     for (const auto &i : stud)
-        cout<<left<<setw(15)<<i.surname<<setw(15)<<i.name<<setw(15)<<Average(i)<<setw(15)<<Median(i)<<endl;
+        cout << left << setw(15) << i.surname << setw(15) << i.name << setw(15) << Average(i) << setw(15) << Median(i) << endl;
 }
 
 double Average(User stud)
