@@ -1,3 +1,4 @@
+//Kompiliavimo komanda mac'ui: clang++ -std=c++11 -stdlib=libc++ -o prog mainV.cpp
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
@@ -5,6 +6,10 @@
 #include <random>
 
 using namespace std;
+
+const vector<string> nameList{"Nojus", "Domas", "Arvydas", "Rokas", "Vytautas", "Aurimas", "Joris", "Ramunas", "Povilas", "Mindaugas"};
+const vector<string> surnameList{"Vaicekauskas", "Kateiva", "Kardauskas", "Zalionis", "Norkus", "Ozelis", "Stasiunas", "Oginskas", "Petrauskas", "Pakuckas"};
+const int paz = 5; // pazymiu skaicius
 
 struct User
 {
@@ -50,63 +55,78 @@ void Read(vector<User> &stud)
 
     if (choice == 4)
     {
-        cout<<"Programos uzdarymas"<<endl;
+        cout << "Programos uzdarymas" << endl;
         exit(0);
     }
-        
+
     if (choice == 3)
     {
-        //Nebuvo uzduotyje
-        exit(0);
-    }
-
-    while (true)
-    {
-        cout << "Vardas (\"exit\", kad uzbaigti): ";
-        cin >> name;
-        if (name == "exit")
-            break;
-        cout << "Pavarde: ";
-        cin >> surname;
-
-        if (choice == 2)
+        for (int i = 0; i < 10; i++)
         {
-            int n = 5; // pazymiu skaicius
-            for (int i = 0; i < 5; i++)
+            name = nameList[RandNumber() - 1];
+            surname = surnameList[RandNumber() - 1];
+            for (int i = 0; i < paz; i++)
                 hwRes.push_back(RandNumber());
             exRes = RandNumber();
+            User temp;
+            temp.name = name;
+            temp.surname = surname;
+            temp.hwRes = hwRes;
+            temp.exRes = exRes;
+            stud.push_back(temp);
         }
-        else
-        {
-            while (true)
-            {
-                cout << "Namu darbu pazymys (\"-1\", kad uzbaigti): ";
-                cin >> hw;
-                if (hw == -1)
-                    break;
-                hwRes.push_back(hw);
-            }
-            cout << "Egzamino pazymys: ";
-            cin >> exRes;
-        }
+    }
 
-        User temp;
-        temp.name = name;
-        temp.surname = surname;
-        temp.hwRes = hwRes;
-        temp.exRes = exRes;
-        stud.push_back(temp);
+    if (choice == 1 || choice == 2)
+    {
+        while (true)
+        {
+            cout << "Vardas (\"exit\", kad uzbaigti): ";
+            cin >> name;
+            if (name == "exit")
+                break;
+            cout << "Pavarde: ";
+            cin >> surname;
+
+            if (choice == 2)
+            {
+                int n = 5; // pazymiu skaicius
+                for (int i = 0; i < 5; i++)
+                    hwRes.push_back(RandNumber());
+                exRes = RandNumber();
+            }
+
+            else
+            {
+                while (true)
+                {
+                    cout << "Namu darbu pazymys (\"-1\", kad uzbaigti): ";
+                    cin >> hw;
+                    if (hw == -1)
+                        break;
+                    hwRes.push_back(hw);
+                }
+                cout << "Egzamino pazymys: ";
+                cin >> exRes;
+            }
+
+            User temp;
+            temp.name = name;
+            temp.surname = surname;
+            temp.hwRes = hwRes;
+            temp.exRes = exRes;
+            stud.push_back(temp);
+        }
     }
 }
 
 void Result(vector<User> &stud)
 {
-    cout << "Pavarde    Vardas       Galutinis (Vid.)   /   Galutinis (Med.)" << endl;
-    cout << "--------------------------------------------------------------" << endl;
+    cout << "Pavarde        Vardas    Galutinis (Vid.)   /   Galutinis (Med.)" << endl;
+    cout << "----------------------------------------------------------------" << endl;
     cout << fixed << setprecision(2);
     for (const auto &i : stud)
-        cout << i.name << setw(15) << right << i.surname << setw(15) << right
-             << Average(i) << setw(20) << right << Median(i) << endl;
+        cout<<left<<setw(15)<<i.surname<<setw(15)<<i.name<<setw(15)<<Average(i)<<setw(15)<<Median(i)<<endl;
 }
 
 double Average(User stud)
