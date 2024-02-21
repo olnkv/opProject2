@@ -1,5 +1,7 @@
 // Kompiliavimo komanda mac'ui: clang++ -std=c++11 -stdlib=libc++ -o prog mainV.cpp
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <iomanip>
 #include <algorithm>
 #include <vector>
@@ -9,8 +11,9 @@ using namespace std;
 
 const vector<string> nameList{"Nojus", "Domas", "Arvydas", "Rokas", "Vytautas", "Aurimas", "Joris", "Ramunas", "Povilas", "Mindaugas"};
 const vector<string> surnameList{"Vaicekauskas", "Kateiva", "Kardauskas", "Zalionis", "Norkus", "Ozelis", "Stasiunas", "Oginskas", "Petrauskas", "Pakuckas"};
-const int paz = 5; // pazymiu skaicius
+const int paz = 15; // pazymiu skaicius
 const int st = 10; // generuojamu studentu skaicius
+const char read[] = "studentai10000.txt"; // failo pavadinimas
 
 struct User
 {
@@ -46,54 +49,48 @@ int RandNumber()
 
 void Read(vector<User> &stud)
 {
-    string name, surname;
-    int exRes, hw;
-    vector<int> hwRes;
-
+    int hw;
     int choice;
-    cout << "Programos eigos pasirinkimas -  (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius;\n\"3\" - generuoti pazymius, bei studentu vardus; \"4\" - baigti darba): ";
+    cout << "Programos eigos pasirinkimas -  (\"1\" - nuskaityti is failo; \"2\" - ivedimas ranka; \n\"3\" - generuoti pazymius; \"4\" - generuoti pazymius, bei studentu vardus; \"5\" - baigti darba: ";
     cin >> choice;
 
-    if (choice == 4)
+    if (choice == 5)
     {
         cout << "Programos uzdarymas" << endl;
         exit(0);
     }
 
-    if (choice == 3)
+    if (choice == 4)
     {
         for (int i = 0; i < st; i++)
         {
-            name = nameList[RandNumber() - 1];
-            surname = surnameList[RandNumber() - 1];
-            for (int i = 0; i < paz; i++)
-                hwRes.push_back(RandNumber());
-            exRes = RandNumber();
             User temp;
-            temp.name = name;
-            temp.surname = surname;
-            temp.hwRes = hwRes;
-            temp.exRes = exRes;
+            temp.name = nameList[RandNumber() - 1];
+            temp.surname = surnameList[RandNumber() - 1];
+            for (int i = 0; i < paz; i++)
+                temp.hwRes.push_back(RandNumber());
+            temp.exRes = RandNumber();
             stud.push_back(temp);
         }
     }
 
-    if (choice == 1 || choice == 2)
+    if (choice == 2 || choice == 3)
     {
         while (true)
         {
+            User temp;
             cout << "Vardas (\"exit\", kad uzbaigti): ";
-            cin >> name;
-            if (name == "exit")
+            cin >> temp.name;
+            if (temp.name == "exit")
                 break;
             cout << "Pavarde: ";
-            cin >> surname;
+            cin >> temp.surname;
 
-            if (choice == 2)
+            if (choice == 3)
             {
                 for (int i = 0; i < paz; i++)
-                    hwRes.push_back(RandNumber());
-                exRes = RandNumber();
+                    temp.hwRes.push_back(RandNumber());
+                temp.exRes = RandNumber();
             }
 
             else
@@ -104,19 +101,36 @@ void Read(vector<User> &stud)
                     cin >> hw;
                     if (hw == -1)
                         break;
-                    hwRes.push_back(hw);
+                    temp.hwRes.push_back(hw);
                 }
                 cout << "Egzamino pazymys: ";
-                cin >> exRes;
+                cin >> temp.exRes;
             }
-
-            User temp;
-            temp.name = name;
-            temp.surname = surname;
-            temp.hwRes = hwRes;
-            temp.exRes = exRes;
             stud.push_back(temp);
         }
+    }
+
+    if(choice == 1)
+    {
+        ifstream rd(read);
+        string line;
+        User temp;
+        int grade;
+        rd.ignore(1000, '\n');
+        while(getline(rd,line))
+        {
+            istringstream iss(line);
+            iss>>temp.name>>temp.surname;
+            for(int i = 0; i < paz; i++)
+            {
+                iss>>grade;
+                temp.hwRes.push_back(grade);
+            }
+            iss>>temp.exRes;
+            stud.push_back(temp);          
+        }
+
+        rd.close();
     }
 }
 
