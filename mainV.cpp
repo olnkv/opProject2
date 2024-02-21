@@ -11,8 +11,8 @@ using namespace std;
 
 const vector<string> nameList{"Nojus", "Domas", "Arvydas", "Rokas", "Vytautas", "Aurimas", "Joris", "Ramunas", "Povilas", "Mindaugas"};
 const vector<string> surnameList{"Vaicekauskas", "Kateiva", "Kardauskas", "Zalionis", "Norkus", "Ozelis", "Stasiunas", "Oginskas", "Petrauskas", "Pakuckas"};
-const int paz = 15; // pazymiu skaicius
-const int st = 10; // generuojamu studentu skaicius
+const int paz = 15;                       // pazymiu skaicius
+const int st = 10;                        // generuojamu studentu skaicius
 const char read[] = "studentai10000.txt"; // failo pavadinimas
 
 struct User
@@ -23,20 +23,41 @@ struct User
     int exRes;         // egzamino rezultatai
 };
 
-void Read(vector<User> &stud);   // skaitymo funkcija
-void Result(vector<User> &stud); // rezultatu isvedimo i ekrana funkcija
-double Average(User stud);       // galutinio vidurkio skaiciavimo funkcija
-double Median(User stud);        // galutines medianos skaiciavimo funkcija
-int RandNumber();                // atstiktinio skaiciaus 1-10 generavimas
+void Read(vector<User> &stud);       // skaitymo funkcija
+void Result(vector<User> &stud);     // rezultatu isvedimo i ekrana funkcija
+double Average(User stud);           // galutinio vidurkio skaiciavimo funkcija
+double Median(User stud);            // galutines medianos skaiciavimo funkcija
+int RandNumber();                    // atstiktinio skaiciaus 1-10 generavimas
+void SortChoice(vector<User> &stud); // rusiavimo funkcija
 
 int main()
 {
     vector<User> stud;
 
     Read(stud);
+    SortChoice(stud);
     Result(stud);
 
     return 0;
+}
+
+void SortChoice(vector<User> &stud)
+{
+    int choice;
+    cout << "Rusiavimo pasirinikimas - (\"1\" - pagal varda; \"2\" - pagal pavarde; \n\"3\" - pagal vidurkio galutini; \"4\" - pagal medianos galutini): ";
+    cin >> choice;
+    if (choice == 1)
+        sort(stud.begin(), stud.end(), [](const User &a, const User &b)
+             { return a.name < b.name; });
+    if (choice == 2)
+        sort(stud.begin(), stud.end(), [](const User &a, const User &b)
+             { return a.surname < b.surname; });
+    if (choice == 3)
+        sort(stud.begin(), stud.end(), [](const User &a, const User &b)
+             { return Average(a) < Average(b); });
+    if (choice == 4)
+        sort(stud.begin(), stud.end(), [](const User &a, const User &b)
+             { return Median(a) < Median(b); });
 }
 
 int RandNumber()
@@ -51,7 +72,7 @@ void Read(vector<User> &stud)
 {
     int hw;
     int choice;
-    cout << "Programos eigos pasirinkimas -  (\"1\" - nuskaityti is failo; \"2\" - ivedimas ranka; \n\"3\" - generuoti pazymius; \"4\" - generuoti pazymius, bei studentu vardus; \"5\" - baigti darba: ";
+    cout << "Programos eigos pasirinkimas -  (\"1\" - nuskaityti is failo; \"2\" - ivedimas ranka; \n\"3\" - generuoti pazymius; \"4\" - generuoti pazymius, bei studentu vardus; \"5\" - baigti darba): ";
     cin >> choice;
 
     if (choice == 5)
@@ -110,24 +131,24 @@ void Read(vector<User> &stud)
         }
     }
 
-    if(choice == 1)
+    if (choice == 1)
     {
         ifstream rd(read);
         string line;
         User temp;
-        int grade;
+        int grade; 
         rd.ignore(1000, '\n');
-        while(getline(rd,line))
+        while (getline(rd, line))
         {
             istringstream iss(line);
-            iss>>temp.name>>temp.surname;
-            for(int i = 0; i < paz; i++)
+            iss >> temp.name >> temp.surname;
+            for (int i = 0; i < paz; i++)
             {
-                iss>>grade;
+                iss >> grade;
                 temp.hwRes.push_back(grade);
             }
-            iss>>temp.exRes;
-            stud.push_back(temp);          
+            iss >> temp.exRes;
+            stud.push_back(temp);
         }
 
         rd.close();
