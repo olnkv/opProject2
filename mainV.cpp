@@ -157,11 +157,11 @@ void Read(vector<User> &stud)
 
 void Result(vector<User> &stud)
 {
-    cout << "Pavarde        Vardas    Galutinis (Vid.)   /   Galutinis (Med.)" << endl;
-    cout << "----------------------------------------------------------------" << endl;
+    cout << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
+    cout << "------------------------------------------------------------------" << endl;
     cout << fixed << setprecision(2);
     for (const auto &i : stud)
-        cout << left << setw(15) << i.surname << setw(15) << i.name << setw(15) << Average(i) << setw(15) << Median(i) << endl;
+        cout << left << setw(15) << i.surname << setw(15) << i.name << setw(20) << Average(i) << setw(15) << Median(i) << endl;
 }
 
 double Average(User stud)
