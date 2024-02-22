@@ -6,14 +6,16 @@
 #include <algorithm>
 #include <vector>
 #include <random>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 const vector<string> nameList{"Nojus", "Domas", "Arvydas", "Rokas", "Vytautas", "Aurimas", "Joris", "Ramunas", "Povilas", "Mindaugas"};
 const vector<string> surnameList{"Vaicekauskas", "Kateiva", "Kardauskas", "Zalionis", "Norkus", "Ozelis", "Stasiunas", "Oginskas", "Petrauskas", "Pakuckas"};
-const int paz = 15;                       // pazymiu skaicius
-const int st = 10;                        // generuojamu studentu skaicius
-const char read[] = "studentai10000.txt"; // failo pavadinimas
+const int paz = 15; // pazymiu skaicius
+const int st = 10;  // generuojamu studentu skaicius
+string file;        // failo pavadinimas
 
 struct User
 {
@@ -24,6 +26,7 @@ struct User
 };
 
 void Read(vector<User> &stud);       // skaitymo funkcija
+void ReadFile(vector<User> &stud);   // skaitymo is failo funkcija
 void Result(vector<User> &stud);     // rezultatu isvedimo i ekrana funkcija
 double Average(User stud);           // galutinio vidurkio skaiciavimo funkcija
 double Median(User stud);            // galutines medianos skaiciavimo funkcija
@@ -33,10 +36,45 @@ void SortChoice(vector<User> &stud); // rusiavimo funkcija
 int main()
 {
     vector<User> stud;
-
-    Read(stud);
-    SortChoice(stud);
-    Result(stud);
+    int choice;
+    cout << "Sveiki!\nProgramos eigos pasirinkimas - (\"1\" - skaitymas is failu; \"2\" - ivedimas ranka / generavimas; \"3\" - baigti darba)";
+    cin >> choice;
+    if (choice == 3)
+        exit(0);
+    if (choice == 2)
+    {
+        Read(stud);
+        SortChoice(stud);
+        Result(stud);
+    }
+    if (choice == 1)
+    {
+        int avgTime = 0;
+        int count = 1;
+        while (true)
+        {
+            int choice;
+            cout << "Pasirinikite failo dydi - (\"1\" - 100; \"2\" - 1000; \"3\" - 10000; \"4\" - baigti darba)";
+            cin >> choice;
+            if (choice == 4)
+                exit(0);
+            if (choice == 3)
+                file = "studentai10000.txt";
+            if (choice == 2)
+                file = "studentai1000.txt";
+            if (choice == 1)
+                file = "studentai100.txt";
+            auto start = high_resolution_clock::now();
+            ReadFile(stud);
+            auto stop = high_resolution_clock::now();
+            auto duration = duration_cast<microseconds>(stop - start);
+            cout << "Nuskaitymo laikas: "
+                 << duration.count() << " mikrosekundes" << endl;
+            avgTime += (int)duration.count();
+            cout << "Laiku vidurkis: " << avgTime / count << " mikrosekundes" << endl;
+            count++;
+        }
+    }
 
     return 0;
 }
@@ -68,20 +106,42 @@ int RandNumber()
     return dis(gen);
 }
 
+void ReadFile(vector<User> &stud)
+{
+    ifstream rd(file);
+    string line;
+    User temp;
+    int grade;
+    rd.ignore(1000, '\n');
+    while (getline(rd, line))
+    {
+        istringstream iss(line);
+        iss >> temp.name >> temp.surname;
+        for (int i = 0; i < paz; i++)
+        {
+            iss >> grade;
+            temp.hwRes.push_back(grade);
+        }
+        iss >> temp.exRes;
+        stud.push_back(temp);
+    }
+    rd.close();
+}
+
 void Read(vector<User> &stud)
 {
     int hw;
     int choice;
-    cout << "Programos eigos pasirinkimas -  (\"1\" - nuskaityti is failo; \"2\" - ivedimas ranka; \n\"3\" - generuoti pazymius; \"4\" - generuoti pazymius, bei studentu vardus; \"5\" - baigti darba): ";
+    cout << "Programos eigos pasirinkimas -  (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius; \"3\" - generuoti pazymius, bei studentu vardus; \"4\" - baigti darba): ";
     cin >> choice;
 
-    if (choice == 5)
+    if (choice == 4)
     {
         cout << "Programos uzdarymas" << endl;
         exit(0);
     }
 
-    if (choice == 4)
+    if (choice == 3)
     {
         for (int i = 0; i < st; i++)
         {
@@ -95,7 +155,7 @@ void Read(vector<User> &stud)
         }
     }
 
-    if (choice == 2 || choice == 3)
+    if (choice == 1 || choice == 2)
     {
         while (true)
         {
@@ -129,29 +189,6 @@ void Read(vector<User> &stud)
             }
             stud.push_back(temp);
         }
-    }
-
-    if (choice == 1)
-    {
-        ifstream rd(read);
-        string line;
-        User temp;
-        int grade; 
-        rd.ignore(1000, '\n');
-        while (getline(rd, line))
-        {
-            istringstream iss(line);
-            iss >> temp.name >> temp.surname;
-            for (int i = 0; i < paz; i++)
-            {
-                iss >> grade;
-                temp.hwRes.push_back(grade);
-            }
-            iss >> temp.exRes;
-            stud.push_back(temp);
-        }
-
-        rd.close();
     }
 }
 
