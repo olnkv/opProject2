@@ -53,7 +53,6 @@ int main()
         int count = 1;
         while (true)
         {
-            int choice;
             cout << "Pasirinikite failo dydi - (\"1\" - 100; \"2\" - 1000; \"3\" - 10000; \"4\" - baigti darba)";
             cin >> choice;
             if (choice == 4)
