@@ -56,7 +56,7 @@ int main()
             cout << "Pasirinikite failo dydi - (\"1\" - 100; \"2\" - 1000; \"3\" - 10000; \"4\" - baigti darba)";
             cin >> choice;
             if (choice == 4)
-                exit(0);
+                break;
             if (choice == 3)
                 file = "studentai10000.txt";
             if (choice == 2)
@@ -73,6 +73,8 @@ int main()
             cout << "Laiku vidurkis: " << avgTime / count << " mikrosekundes" << endl;
             count++;
         }
+        SortChoice(stud);
+        Result(stud);
     }
 
     return 0;
