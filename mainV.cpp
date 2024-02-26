@@ -13,9 +13,8 @@ using namespace std::chrono;
 
 const vector<string> nameList{"Nojus", "Domas", "Arvydas", "Rokas", "Vytautas", "Aurimas", "Joris", "Ramunas", "Povilas", "Mindaugas"};
 const vector<string> surnameList{"Vaicekauskas", "Kateiva", "Kardauskas", "Zalionis", "Norkus", "Ozelis", "Stasiunas", "Oginskas", "Petrauskas", "Pakuckas"};
-const int paz = 15; // pazymiu skaicius
-const int st = 10;  // generuojamu studentu skaicius
-string file;        // failo pavadinimas
+int paz, st; // generuojamu pazymiu ir studentu skaicius
+string file; // failo pavadinimas
 
 struct User
 {
@@ -25,7 +24,7 @@ struct User
     int exRes;         // egzamino rezultatai
 };
 
-void Read(vector<User> &stud);       // skaitymo funkcija
+void ReadUser(vector<User> &stud);   // ivesties skaitymo funkcija
 void ReadFile(vector<User> &stud);   // skaitymo is failo funkcija
 void Result(vector<User> &stud);     // rezultatu isvedimo i ekrana funkcija
 double Average(User stud);           // galutinio vidurkio skaiciavimo funkcija
@@ -39,11 +38,12 @@ int main()
     int choice;
     cout << "Sveiki!\nProgramos eigos pasirinkimas - (\"1\" - skaitymas is failu; \"2\" - ivedimas ranka / generavimas; \"3\" - baigti darba)";
     cin >> choice;
+
     if (choice == 3)
         exit(0);
     if (choice == 2)
     {
-        Read(stud);
+        ReadUser(stud);
         SortChoice(stud);
         Result(stud);
     }
@@ -51,18 +51,15 @@ int main()
     {
         int avgTime = 0;
         int count = 1;
+        string fileName;
         while (true)
         {
-            cout << "Pasirinikite failo dydi - (\"1\" - 100; \"2\" - 1000; \"3\" - 10000; \"4\" - baigti darba)";
-            cin >> choice;
-            if (choice == 4)
+            cout << "Irasykite failo varda (\"exit\", kad pereiti prie rusiavimo): ";
+            cin >> fileName;
+            if (fileName == "exit")
                 break;
-            if (choice == 3)
-                file = "studentai10000.txt";
-            if (choice == 2)
-                file = "studentai1000.txt";
-            if (choice == 1)
-                file = "studentai100.txt";
+            else
+                file = fileName;
             auto start = high_resolution_clock::now();
             ReadFile(stud);
             auto stop = high_resolution_clock::now();
@@ -111,25 +108,27 @@ void ReadFile(vector<User> &stud)
 {
     ifstream rd(file);
     string line;
-    User temp;
     int grade;
+    int num = 0;
     rd.ignore(1000, '\n');
     while (getline(rd, line))
     {
         istringstream iss(line);
+        User temp;
         iss >> temp.name >> temp.surname;
-        for (int i = 0; i < paz; i++)
+        while(iss>>grade)
         {
-            iss >> grade;
-            temp.hwRes.push_back(grade);
+            if(iss.peek() == ' ')
+                temp.hwRes.push_back(grade);
+            else
+                temp.exRes = grade;
         }
-        iss >> temp.exRes;
         stud.push_back(temp);
     }
     rd.close();
 }
 
-void Read(vector<User> &stud)
+void ReadUser(vector<User> &stud)
 {
     int hw;
     int choice;
@@ -144,6 +143,10 @@ void Read(vector<User> &stud)
 
     if (choice == 3)
     {
+        cout << "Studentu skaicius: ";
+        cin >> st;
+        cout << "Namu darbu payzmiu skaicius: ";
+        cin >> paz;
         for (int i = 0; i < st; i++)
         {
             User temp;
@@ -168,13 +171,14 @@ void Read(vector<User> &stud)
             cout << "Pavarde: ";
             cin >> temp.surname;
 
-            if (choice == 3)
+            if (choice == 2)
             {
+                cout << "Namu darbu payzmiu skaicius: ";
+                cin >> paz;
                 for (int i = 0; i < paz; i++)
                     temp.hwRes.push_back(RandNumber());
                 temp.exRes = RandNumber();
             }
-
             else
             {
                 while (true)
@@ -200,6 +204,14 @@ void Result(vector<User> &stud)
     cout << fixed << setprecision(2);
     for (const auto &i : stud)
         cout << left << setw(15) << i.surname << setw(15) << i.name << setw(20) << Average(i) << setw(15) << Median(i) << endl;
+    // Ivesties patikrinimui
+    // for (const auto &i : stud)
+    // {
+    //     cout << i.name << " " << i.surname << " ";
+    //     for (int result : i.hwRes)
+    //         cout << result << " ";
+    //     cout << i.exRes << endl;
+    // }
 }
 
 double Average(User stud)
