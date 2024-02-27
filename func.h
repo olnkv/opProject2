@@ -1,12 +1,9 @@
-// Kompiliavimo komanda mac'ui: clang++ -std=c++11 -stdlib=libc++ -o prog mainV.cpp
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <iomanip>
+#ifndef FUNC_H
+#define FUNC_H
+
 #include <algorithm>
 #include <vector>
-#include <random>
-#include <chrono>
+#include "user.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -16,66 +13,13 @@ const vector<string> surnameList{"Vaicekauskas", "Kateiva", "Kardauskas", "Zalio
 int paz, st; // generuojamu pazymiu ir studentu skaicius
 string file; // failo pavadinimas
 
-struct User
-{
-    string name;       // vardas
-    string surname;    // pavarde
-    vector<int> hwRes; // namu darbu rezultatai
-    int exRes;         // egzamino rezultatai
-};
-
-void ReadUser(vector<User> &stud);   // ivesties skaitymo funkcija
-void ReadFile(vector<User> &stud);   // skaitymo is failo funkcija
-void Result(vector<User> &stud);     // rezultatu isvedimo i ekrana funkcija
-double Average(User stud);           // galutinio vidurkio skaiciavimo funkcija
-double Median(User stud);            // galutines medianos skaiciavimo funkcija
-int RandNumber();                    // atstiktinio skaiciaus 1-10 generavimas
-void SortChoice(vector<User> &stud); // rusiavimo funkcija
-
-int main()
-{
-    vector<User> stud;
-    int choice;
-    cout << "Sveiki!\nProgramos eigos pasirinkimas - (\"1\" - skaitymas is failu; \"2\" - ivedimas ranka / generavimas; \"3\" - baigti darba)";
-    cin >> choice;
-
-    if (choice == 3)
-        exit(0);
-    if (choice == 2)
-    {
-        ReadUser(stud);
-        SortChoice(stud);
-        Result(stud);
-    }
-    if (choice == 1)
-    {
-        int avgTime = 0;
-        int count = 1;
-        string fileName;
-        while (true)
-        {
-            cout << "Irasykite failo varda (\"exit\", kad pereiti prie rusiavimo): ";
-            cin >> fileName;
-            if (fileName == "exit")
-                break;
-            else
-                file = fileName;
-            auto start = high_resolution_clock::now();
-            ReadFile(stud);
-            auto stop = high_resolution_clock::now();
-            auto duration = duration_cast<microseconds>(stop - start);
-            cout << "Nuskaitymo laikas: "
-                 << duration.count() << " mikrosekundes" << endl;
-            avgTime += (int)duration.count();
-            cout << "Laiku vidurkis: " << avgTime / count << " mikrosekundes" << endl;
-            count++;
-        }
-        SortChoice(stud);
-        Result(stud);
-    }
-
-    return 0;
-}
+void SortChoice(vector<User> &stud);
+int RandNumber();
+void ReadFile(vector<User> &stud);
+void ReadUser(vector<User> &stud);
+void Result(vector<User> &stud);
+double Average(User stud);
+double Median(User stud);
 
 void SortChoice(vector<User> &stud)
 {
@@ -116,9 +60,9 @@ void ReadFile(vector<User> &stud)
         istringstream iss(line);
         User temp;
         iss >> temp.name >> temp.surname;
-        while(iss>>grade)
+        while (iss >> grade)
         {
-            if(iss.peek() == ' ')
+            if (iss.peek() == ' ')
                 temp.hwRes.push_back(grade);
             else
                 temp.exRes = grade;
@@ -232,3 +176,5 @@ double Median(User stud)
     med = (double)(stud.hwRes[(stud.hwRes.size() - 1) / 2] + stud.hwRes[stud.hwRes.size() / 2]) / 2.0;
     return 0.4 * med + 0.6 * stud.exRes;
 }
+
+#endif
