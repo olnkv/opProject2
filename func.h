@@ -121,7 +121,7 @@ void ReadUser(vector<User> &stud)
 {
     int hw;
     int choice;
-    cout << "Programos eigos pasirinkimas -  (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius; \"3\" - generuoti pazymius, bei studentu vardus; \"4\" - baigti darba): ";
+    cout << "Programos eigos pasirinkimas - (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius; \"3\" - generuoti pazymius, bei studentu vardus; \"4\" - baigti darba): ";
     while (true)
     {
         try
@@ -137,7 +137,7 @@ void ReadUser(vector<User> &stud)
             cerr << ia.what() << '\n';
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Programos eigos pasirinkimas -  (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius; \"3\" - generuoti pazymius, bei studentu vardus; \"4\" - baigti darba): ";
+            cout << "Programos eigos pasirinkimas - (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius; \"3\" - generuoti pazymius, bei studentu vardus; \"4\" - baigti darba): ";
         }
     }
 
