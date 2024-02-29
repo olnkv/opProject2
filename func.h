@@ -222,7 +222,7 @@ void Result(vector<User> &stud)
 
 double Average(User stud)
 {
-    double avg;
+    double avg = 0.0;
     for (const double &value : stud.hwRes)
         avg += value;
     avg = avg / stud.hwRes.size();
