@@ -78,7 +78,7 @@ void ReadFile(vector<User> &stud)
             {
                 ifstream rd(file);
                 break;
-            }            
+            }
         }
         catch (const runtime_error &e)
         {
@@ -150,9 +150,43 @@ void ReadUser(vector<User> &stud)
     if (choice == 3)
     {
         cout << "Studentu skaicius: ";
-        cin >> st;
+        while (true)
+        {
+            try
+            {
+                cin >> st;
+                if (cin.fail())
+                    throw invalid_argument("Klaidinga ivestis");
+                else
+                    break;
+            }
+            catch (const invalid_argument &ia)
+            {
+                cerr << ia.what() << '\n';
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Studentu skaicius: ";
+            }
+        }
         cout << "Namu darbu payzmiu skaicius: ";
-        cin >> paz;
+        while (true)
+        {
+            try
+            {
+                cin >> paz;
+                if (cin.fail())
+                    throw invalid_argument("Klaidinga ivestis");
+                else
+                    break;
+            }
+            catch (const invalid_argument &ia)
+            {
+                cerr << ia.what() << '\n';
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Namu darbu payzmiu skaicius: ";
+            }
+        }
         for (int i = 0; i < st; i++)
         {
             User temp;
@@ -180,7 +214,24 @@ void ReadUser(vector<User> &stud)
             if (choice == 2)
             {
                 cout << "Namu darbu payzmiu skaicius: ";
-                cin >> paz;
+                while (true)
+                {
+                    try
+                    {
+                        cin >> paz;
+                        if (cin.fail())
+                            throw invalid_argument("Klaidinga ivestis");
+                        else
+                            break;
+                    }
+                    catch (const invalid_argument &ia)
+                    {
+                        cerr << ia.what() << '\n';
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Namu darbu payzmiu skaicius: ";
+                    }
+                }
                 for (int i = 0; i < paz; i++)
                     temp.hwRes.push_back(RandNumber());
                 temp.exRes = RandNumber();
