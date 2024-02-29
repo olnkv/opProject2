@@ -47,8 +47,6 @@ int main()
     }
     if (choice == 1)
     {
-        int avgTime = 0;
-        int count = 1;
         string fileName;
         ReadFile(stud);
         SortChoice(stud);
