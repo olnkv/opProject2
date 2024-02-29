@@ -1,4 +1,5 @@
 // Kompiliavimo komanda mac'ui: clang++ -std=c++11 -stdlib=libc++ -o prog main.cpp
+// Neveikia g++ -g main.cpp -o main -lm
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -12,23 +13,28 @@
 using namespace std;
 using namespace std::chrono;
 
-
 int main()
 {
     vector<User> stud;
     int choice;
     cout << "Sveiki!\nProgramos eigos pasirinkimas - (\"1\" - skaitymas is failu; \"2\" - ivedimas ranka / generavimas; \"3\" - baigti darba): ";
-    try
+    while (true)
     {
-        cin >> choice;
-        if (cin.fail())
-            throw invalid_argument("Klaidinga ivestis");
-    }
-    catch (const invalid_argument &ia)
-    {
-        cerr << ia.what() << '\n';
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        try
+        {
+            cin >> choice;
+            if (cin.fail())
+                throw invalid_argument("Klaidinga ivestis");
+            else
+                break;
+        }
+        catch (const invalid_argument &ia)
+        {
+            cerr << ia.what() << '\n';
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Sveiki!\nProgramos eigos pasirinkimas - (\"1\" - skaitymas is failu; \"2\" - ivedimas ranka / generavimas; \"3\" - baigti darba): ";
+        }
     }
 
     if (choice == 3)

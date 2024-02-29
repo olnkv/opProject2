@@ -75,7 +75,10 @@ void ReadFile(vector<User> &stud)
             if (!rd.is_open())
                 throw runtime_error("Nepavyko atidaryti failo.");
             else
+            {
+                ifstream rd(file);
                 break;
+            }            
         }
         catch (const runtime_error &e)
         {
@@ -119,7 +122,24 @@ void ReadUser(vector<User> &stud)
     int hw;
     int choice;
     cout << "Programos eigos pasirinkimas -  (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius; \"3\" - generuoti pazymius, bei studentu vardus; \"4\" - baigti darba): ";
-    cin >> choice;
+    while (true)
+    {
+        try
+        {
+            cin >> choice;
+            if (cin.fail())
+                throw invalid_argument("Klaidinga ivestis");
+            else
+                break;
+        }
+        catch (const invalid_argument &ia)
+        {
+            cerr << ia.what() << '\n';
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Programos eigos pasirinkimas -  (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius; \"3\" - generuoti pazymius, bei studentu vardus; \"4\" - baigti darba): ";
+        }
+    }
 
     if (choice == 4)
     {

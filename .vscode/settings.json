@@ -16,6 +16,9 @@
         "istream": "cpp",
         "ostream": "cpp",
         "stdexcept": "cpp",
-        "exception": "cpp"
+        "exception": "cpp",
+        "algorithm": "cpp",
+        "limits": "cpp",
+        "fstream": "cpp"
     }
 }
