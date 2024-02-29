@@ -1,12 +1,25 @@
 #ifndef FUNC_H
 #define FUNC_H
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
 #include <algorithm>
 #include <vector>
-#include "user.h"
+#include <random>
+#include <chrono>
 
 using namespace std;
 using namespace std::chrono;
+
+struct User
+{
+    string name;       // vardas
+    string surname;    // pavarde
+    vector<int> hwRes; // namu darbu rezultatai
+    int exRes;         // egzamino rezultatai
+};
 
 const vector<string> nameList{"Nojus", "Domas", "Arvydas", "Rokas", "Vytautas", "Aurimas", "Joris", "Ramunas", "Povilas", "Mindaugas"};
 const vector<string> surnameList{"Vaicekauskas", "Kateiva", "Kardauskas", "Zalionis", "Norkus", "Ozelis", "Stasiunas", "Oginskas", "Petrauskas", "Pakuckas"};
@@ -50,11 +63,36 @@ int RandNumber()
 
 void ReadFile(vector<User> &stud)
 {
+    cout << "Irasykite failo varda (\"exit\", kad baigti darba): ";
+    cin >> file;
+    if (file == "exit")
+        exit(0);
     ifstream rd(file);
+    while (true)
+    {
+        try
+        {
+            if (!rd.is_open())
+                throw runtime_error("Nepavyko atidaryti failo.");
+            else
+                break;
+        }
+        catch (const runtime_error &e)
+        {
+            cout << e.what() << endl;
+            cout << "Irasykite failo varda (\"exit\", kad baigti darba): ";
+            cin >> file;
+            if (file == "exit")
+                exit(0);
+        }
+    }
+
     string line;
     int grade;
     int num = 0;
     rd.ignore(1000, '\n');
+
+    auto start = high_resolution_clock::now();
     while (getline(rd, line))
     {
         istringstream iss(line);
@@ -70,6 +108,10 @@ void ReadFile(vector<User> &stud)
         stud.push_back(temp);
     }
     rd.close();
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+    cout << "Nuskaitymo laikas: "
+         << duration.count() << " mikrosekundes" << endl;
 }
 
 void ReadUser(vector<User> &stud)
