@@ -1,5 +1,5 @@
-#ifndef FUNC_H
-#define FUNC_H
+#ifndef func_h
+#define func_h
 
 #include <iostream>
 #include <fstream>
@@ -21,10 +21,6 @@ struct User
     int exRes;         // egzamino rezultatai
 };
 
-const vector<string> nameList{"Nojus", "Domas", "Arvydas", "Rokas", "Vytautas", "Aurimas", "Joris", "Ramunas", "Povilas", "Mindaugas"};
-const vector<string> surnameList{"Vaicekauskas", "Kateiva", "Kardauskas", "Zalionis", "Norkus", "Ozelis", "Stasiunas", "Oginskas", "Petrauskas", "Pakuckas"};
-int paz, st; // generuojamu pazymiu ir studentu skaicius
-string file; // failo pavadinimas
 
 void SortChoice(vector<User> &stud);
 int RandNumber();
