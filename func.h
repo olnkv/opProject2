@@ -17,7 +17,7 @@ struct User
 {
     string name;       // vardas
     string surname;    // pavarde
-    vector<int> hwRes; // namu darbu rezultatai
+    vector<double> hwRes; // namu darbu rezultatai
     int exRes;         // egzamino rezultatai
 };
 
@@ -25,7 +25,7 @@ void SortChoice(vector<User> &stud);
 int RandNumber(int size);
 void ReadFile(vector<User> &stud);
 void CreateFile();
-void SortFile();
+void SortFile(vector<User> &stud);
 void ReadUser(vector<User> &stud);
 void Result(vector<User> &stud);
 double Average(User stud);

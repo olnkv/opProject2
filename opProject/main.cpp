@@ -31,6 +31,7 @@ int main()
         if (choice == 3)
         {
             CreateFile();
+            SortFile(stud);
         }
         if (choice == 2)
         {

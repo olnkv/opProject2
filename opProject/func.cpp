@@ -28,7 +28,7 @@ int RandNumber()
 {
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<> dis(1, 10);
+    uniform_int_distribution<> dis(4, 10);
     return dis(gen);
 }
 
@@ -72,12 +72,9 @@ void ReadFile(vector<User> &stud)
         User temp;
         iss >> temp.name >> temp.surname;
         while (iss >> grade)
-        {
-            if (iss.peek() == ' ')
-                temp.hwRes.push_back(grade);
-            else
-                temp.exRes = grade;
-        }
+            temp.hwRes.push_back(grade);
+        temp.exRes = temp.hwRes.back();
+        temp.hwRes.pop_back();
         stud.push_back(temp);
     }
     rd.close();
@@ -244,9 +241,8 @@ void Result(vector<User> &stud)
 double Average(User stud)
 {
     double avg = 0.0;
-    for (const double value : stud.hwRes)
-        avg += value;
-    avg = avg / stud.hwRes.size();
+    avg = accumulate(stud.hwRes.begin(),stud.hwRes.end(),0.0);
+    avg /= stud.hwRes.size();
     return 0.4 * avg + 0.6 * stud.exRes;
 }
 
@@ -270,25 +266,56 @@ void CreateFile()
     cin>>paz;
     auto start = high_resolution_clock::now();
     ofstream out(file);
-    out << left << setw(25) << "Vardas" << setw(25) << "Pavarde";
+    out << left << setw(25) << "Vardas"<< setw(25) << "Pavarde";
     for(int i = 0; i < paz; i++)
         out << left << setw(10) << "ND" + to_string(i) << " ";
     out <<left <<setw(10)<<"Egz."<<endl;
     for(int i = 0; i < st; i++)
     {
         out << left << setw(25) << "Vardas" + to_string(i) << setw(25) << "Pavarde" + to_string(i);
-        for(int i = 0; i < paz; i++)
+        for(int j = 0; j < paz; j++)
             out << left << setw(10) << RandNumber() << " ";
-        out <<left <<setw(10)<<RandNumber()<<endl;
+        out <<left <<setw(10)<<"10"<<endl;
     }
+    cout<<paz<<endl;
     out.close();
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
-    cout << "Nuskaitymo laikas: "
+    cout << "Failo sukurimo laikas: "
     << duration.count() << " mikrosekundes" << endl;
 }
 
-void SortFile()
+void SortFile(vector<User> &stud)
 {
+    cout<<"Rikiavimas: "<<endl;
+    ReadFile(stud);
+    //vector<User> kiet;
+    for(int i = 0; i < st; i++)
+    {
+        //        if(Average(stud[i]) >= 5.0 || Median(stud[i]) >= 5.0)
+        //        {
+        //            kiet.push_back(stud[i]);
+        //        }
+        cout<<stud[i].name<<" ";
+        for(int j = 0; j < stud[i].hwRes.size(); j++)
+        {
+            cout<<stud[i].hwRes[j]<<" ";
+        }
+        cout<<Average(stud[i])<<endl;
+    }
+    
+    //    ofstream out1("Kietiakai.txt");
+    //    out1 << left << setw(25) << "Vardas" << setw(25) << "Pavarde";
+    //    for(int i = 0; i < paz; i++)
+    //        out1 << left << setw(10) << "ND" + to_string(i) << " ";
+    //    out1 <<left <<setw(10)<<"Egz."<<endl;
+    //    for(int i = 0; i < kiet.size(); i++)
+    //    {
+    //        out1 << left << setw(25) << kiet[i].name << setw(25) << kiet[i].surname;
+    //        for(int j = 0; j < paz; i++)
+    //            out1 << left << setw(10) << kiet[i].hwRes[j] << " ";
+    //        out1 <<left <<setw(10)<<kiet[i].exRes<<endl;
+    //    }
+    //    out1.close();
     
 }
