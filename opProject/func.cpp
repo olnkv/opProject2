@@ -262,29 +262,33 @@ double Median(User stud)
 
 void CreateFile()
 {
-    string name;
-    int size, grade;
     cout<<"Sukurkite failo pavadinima: ";
-    cin>>name;
+    cin>>file;
     cout<<"Studentu skaicius: ";
-    cin>>size;
+    cin>>st;
     cout<<"Pazymiu skaicius: ";
-    cin>>grade;
-    ofstream out(name);
+    cin>>paz;
+    auto start = high_resolution_clock::now();
+    ofstream out(file);
     out << left << setw(25) << "Vardas" << setw(25) << "Pavarde";
-    for(int i = 0; i < grade; i++)
+    for(int i = 0; i < paz; i++)
         out << left << setw(10) << "ND" + to_string(i) << " ";
     out <<left <<setw(10)<<"Egz."<<endl;
-    for(int i = 0; i < size; i++)
+    for(int i = 0; i < st; i++)
     {
         out << left << setw(25) << "Vardas" + to_string(i) << setw(25) << "Pavarde" + to_string(i);
-        for(int i = 0; i < grade; i++)
+        for(int i = 0; i < paz; i++)
             out << left << setw(10) << RandNumber() << " ";
         out <<left <<setw(10)<<RandNumber()<<endl;
     }
+    out.close();
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+    cout << "Nuskaitymo laikas: "
+    << duration.count() << " mikrosekundes" << endl;
 }
 
 void SortFile()
 {
-
+    
 }
