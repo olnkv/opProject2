@@ -17,7 +17,7 @@ struct User
 {
     string name;       // vardas
     string surname;    // pavarde
-    vector<double> hwRes; // namu darbu rezultatai
+    vector<int> hwRes; // namu darbu rezultatai
     int exRes;         // egzamino rezultatai
 };
 

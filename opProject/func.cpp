@@ -4,6 +4,9 @@ const vector<string> nameList{"Nojus", "Domas", "Arvydas", "Rokas", "Vytautas", 
 const vector<string> surnameList{"Vaicekauskas", "Kateiva", "Kardauskas", "Zalionis", "Norkus", "Ozelis", "Stasiunas", "Oginskas", "Petrauskas", "Pakuckas"};
 int paz, st; // generuojamu pazymiu ir studentu skaicius
 string file; // failo pavadinimas
+auto start = high_resolution_clock::now();
+auto stop = high_resolution_clock::now();
+auto cDuration = duration_cast<microseconds>(stop - start);
 
 void SortChoice(vector<User> &stud)
 {
@@ -28,7 +31,7 @@ int RandNumber()
 {
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<> dis(4, 10);
+    uniform_int_distribution<> dis(1, 10);
     return dis(gen);
 }
 
@@ -64,7 +67,6 @@ void ReadFile(vector<User> &stud)
     string line;
     int grade;
     rd.ignore(1000, '\n');
-    
     auto start = high_resolution_clock::now();
     while (getline(rd, line))
     {
@@ -80,8 +82,9 @@ void ReadFile(vector<User> &stud)
     rd.close();
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
-    cout << "Nuskaitymo laikas: "
+    cout << "Failo nuskaitymo laikas: "
     << duration.count() << " mikrosekundes" << endl;
+    cDuration = duration;
 }
 
 void ReadUser(vector<User> &stud)
@@ -241,7 +244,7 @@ void Result(vector<User> &stud)
 double Average(User stud)
 {
     double avg = 0.0;
-    avg = accumulate(stud.hwRes.begin(),stud.hwRes.end(),0.0);
+    avg = accumulate(stud.hwRes.begin(), stud.hwRes.end(), 0.0);
     avg /= stud.hwRes.size();
     return 0.4 * avg + 0.6 * stud.exRes;
 }
@@ -258,26 +261,25 @@ double Median(User stud)
 
 void CreateFile()
 {
-    cout<<"Sukurkite failo pavadinima: ";
-    cin>>file;
-    cout<<"Studentu skaicius: ";
-    cin>>st;
-    cout<<"Pazymiu skaicius: ";
-    cin>>paz;
+    cout << "Sukurkite failo pavadinima: ";
+    cin >> file;
+    cout << "Studentu skaicius: ";
+    cin >> st;
+    cout << "Pazymiu skaicius: ";
+    cin >> paz;
     auto start = high_resolution_clock::now();
     ofstream out(file);
-    out << left << setw(25) << "Vardas"<< setw(25) << "Pavarde";
-    for(int i = 0; i < paz; i++)
+    out << left << setw(25) << "Vardas" << setw(25) << "Pavarde";
+    for (int i = 0; i < paz; i++)
         out << left << setw(10) << "ND" + to_string(i) << " ";
-    out <<left <<setw(10)<<"Egz."<<endl;
-    for(int i = 0; i < st; i++)
+    out << left << setw(10) << "Egz." << endl;
+    for (int i = 0; i < st; i++)
     {
         out << left << setw(25) << "Vardas" + to_string(i) << setw(25) << "Pavarde" + to_string(i);
-        for(int j = 0; j < paz; j++)
+        for (int j = 0; j < paz; j++)
             out << left << setw(10) << RandNumber() << " ";
-        out <<left <<setw(10)<<"10"<<endl;
+        out << left << setw(10) << RandNumber() << endl;
     }
-    cout<<paz<<endl;
     out.close();
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
@@ -287,35 +289,80 @@ void CreateFile()
 
 void SortFile(vector<User> &stud)
 {
-    cout<<"Rikiavimas: "<<endl;
     ReadFile(stud);
-    //vector<User> kiet;
-    for(int i = 0; i < st; i++)
-    {
-        //        if(Average(stud[i]) >= 5.0 || Median(stud[i]) >= 5.0)
-        //        {
-        //            kiet.push_back(stud[i]);
-        //        }
-        cout<<stud[i].name<<" ";
-        for(int j = 0; j < stud[i].hwRes.size(); j++)
+    vector<User> kiet;
+    vector<User> varg;
+    bool kExist = false;
+    bool vExist = false;
+    
+    auto fullStart = high_resolution_clock::now();
+    auto start = high_resolution_clock::now();
+    for (int i = 0; i < stud.size(); i++)
+        if(Average(stud[i]) >= 5.0 || Median(stud[i]) >= 5.0)
         {
-            cout<<stud[i].hwRes[j]<<" ";
+            kiet.push_back(stud[i]);
+            kExist = true;
         }
-        cout<<Average(stud[i])<<endl;
+    for (int i = 0; i < stud.size(); i++)
+        if(Average(stud[i]) < 5.0 || Median(stud[i]) < 5.0)
+        {
+            varg.push_back(stud[i]);
+            vExist = true;
+        }
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start);
+    cout << "Rusiavimo i dvi grupes laikas: "
+    << duration.count() << " mikrosekundes" << endl;
+    
+    start = high_resolution_clock::now();
+    ofstream out1("Kietiakai.txt");
+    if(kExist)
+    {
+        out1 << left << setw(25) << "Vardas" << setw(25) << "Pavarde";
+        for(int i = 0; i < paz; i++)
+            out1 << left << setw(10) << "ND" + to_string(i) << " ";
+        out1 <<left <<setw(10)<<"Egz."<<endl;
+        for(int i = 0; i < kiet.size(); i++)
+        {
+            out1 << left << setw(25) << kiet[i].name << setw(25) << kiet[i].surname;
+            for(int j = 0; j < paz; j++)
+                out1 << left << setw(10) << kiet[i].hwRes[j] << " ";
+            out1 <<left <<setw(10)<<kiet[i].exRes<<endl;
+        }
     }
+    else
+        out1 << "Kietiaku nera :(";
+    out1.close();
+    stop = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(stop - start);
+    cout << "Kietiaku irasymo laikas: "
+    << duration.count() << " mikrosekundes" << endl;
     
-    //    ofstream out1("Kietiakai.txt");
-    //    out1 << left << setw(25) << "Vardas" << setw(25) << "Pavarde";
-    //    for(int i = 0; i < paz; i++)
-    //        out1 << left << setw(10) << "ND" + to_string(i) << " ";
-    //    out1 <<left <<setw(10)<<"Egz."<<endl;
-    //    for(int i = 0; i < kiet.size(); i++)
-    //    {
-    //        out1 << left << setw(25) << kiet[i].name << setw(25) << kiet[i].surname;
-    //        for(int j = 0; j < paz; i++)
-    //            out1 << left << setw(10) << kiet[i].hwRes[j] << " ";
-    //        out1 <<left <<setw(10)<<kiet[i].exRes<<endl;
-    //    }
-    //    out1.close();
-    
+    start = high_resolution_clock::now();
+    ofstream out2("Vargsiukai.txt");
+    if(vExist)
+    {
+        out2 << left << setw(25) << "Vardas" << setw(25) << "Pavarde";
+        for(int i = 0; i < paz; i++)
+            out2 << left << setw(10) << "ND" + to_string(i) << " ";
+        out2 <<left <<setw(10)<<"Egz."<<endl;
+        for(int i = 0; i < varg.size(); i++)
+        {
+            out2 << left << setw(25) << varg[i].name << setw(25) << varg[i].surname;
+            for(int j = 0; j < paz; j++)
+                out2 << left << setw(10) << varg[i].hwRes[j] << " ";
+            out2 <<left <<setw(10)<<varg[i].exRes<<endl;
+        }
+    }
+    else
+        out2 << "Vargsiuku nera :)";
+    out2.close();
+    stop = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(stop - start);
+    cout << "Vargsiuku irasymo laikas: "
+    << duration.count() << " mikrosekundes" << endl;
+    auto fullStop =high_resolution_clock::now();
+    duration = duration_cast<microseconds>(fullStop - fullStart);
+    cout << "Testo laikas: "
+    << duration.count() + cDuration.count()<< " mikrosekundes" << endl;
 }
