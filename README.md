@@ -1,7 +1,7 @@
 
 # Objektinio Programavimo Projektas
 
-Programos eigos testavimai
+## Programos eigos testavimai
 
 Failų kūrimas, kuriami 1000, 10000 ir 100000 elementų failai
 ![alt text](https://github.com/olnkv/opProject/blob/v0.4/sc1.png)
