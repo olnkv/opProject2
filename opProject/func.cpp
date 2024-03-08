@@ -60,11 +60,11 @@ void ReadFile(vector<User> &stud)
                 exit(0);
         }
     }
-
+    
     string line;
     int grade;
     rd.ignore(1000, '\n');
-
+    
     auto start = high_resolution_clock::now();
     while (getline(rd, line))
     {
@@ -84,7 +84,7 @@ void ReadFile(vector<User> &stud)
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop - start);
     cout << "Nuskaitymo laikas: "
-         << duration.count() << " mikrosekundes" << endl;
+    << duration.count() << " mikrosekundes" << endl;
 }
 
 void ReadUser(vector<User> &stud)
@@ -110,13 +110,13 @@ void ReadUser(vector<User> &stud)
             cout << "Programos eigos pasirinkimas - (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius; \"3\" - generuoti pazymius, bei studentu vardus; \"4\" - baigti darba): ";
         }
     }
-
+    
     if (choice == 4)
     {
         cout << "Programos uzdarymas" << endl;
         exit(0);
     }
-
+    
     if (choice == 3)
     {
         cout << "Studentu skaicius: ";
@@ -168,7 +168,7 @@ void ReadUser(vector<User> &stud)
             stud.push_back(temp);
         }
     }
-
+    
     if (choice == 1 || choice == 2)
     {
         while (true)
@@ -180,7 +180,7 @@ void ReadUser(vector<User> &stud)
                 break;
             cout << "Pavarde: ";
             cin >> temp.surname;
-
+            
             if (choice == 2)
             {
                 cout << "Namu darbu payzmiu skaicius: ";
@@ -258,4 +258,33 @@ double Median(User stud)
         med = (double)stud.hwRes[stud.hwRes.size() / 2];
     med = (double)(stud.hwRes[(stud.hwRes.size() - 1) / 2] + stud.hwRes[stud.hwRes.size() / 2]) / 2.0;
     return 0.4 * med + 0.6 * stud.exRes;
+}
+
+void CreateFile()
+{
+    string name;
+    int size, grade;
+    cout<<"Sukurkite failo pavadinima: ";
+    cin>>name;
+    cout<<"Studentu skaicius: ";
+    cin>>size;
+    cout<<"Pazymiu skaicius: ";
+    cin>>grade;
+    ofstream out(name);
+    out << left << setw(25) << "Vardas" << setw(25) << "Pavarde";
+    for(int i = 0; i < grade; i++)
+        out << left << setw(10) << "ND" + to_string(i) << " ";
+    out <<left <<setw(10)<<"Egz."<<endl;
+    for(int i = 0; i < size; i++)
+    {
+        out << left << setw(25) << "Vardas" + to_string(i) << setw(25) << "Pavarde" + to_string(i);
+        for(int i = 0; i < grade; i++)
+            out << left << setw(10) << RandNumber() << " ";
+        out <<left <<setw(10)<<RandNumber()<<endl;
+    }
+}
+
+void SortFile()
+{
+
 }

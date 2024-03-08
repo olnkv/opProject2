@@ -1,10 +1,12 @@
 #include "func.h"
 
-int main() 
+int main()
 {
     vector<User> stud;
-        int choice;
-        cout << "Sveiki!\nProgramos eigos pasirinkimas - (\"1\" - skaitymas is failu; \"2\" - ivedimas ranka / generavimas; \"3\" - baigti darba): ";
+    int choice;
+    while(true)
+    {
+        cout << "Sveiki!\nProgramos eigos pasirinkimas - (\"1\" - skaitymas is failu; \"2\" - ivedimas ranka / generavimas; \"3\" - generuoti faila;  \"4\" - baigti darba): ";
         while (true)
         {
             try
@@ -23,9 +25,13 @@ int main()
                 cout << "Sveiki!\nProgramos eigos pasirinkimas - (\"1\" - skaitymas is failu; \"2\" - ivedimas ranka / generavimas; \"3\" - baigti darba): ";
             }
         }
-
-        if (choice == 3)
+        
+        if (choice == 4)
             exit(0);
+        if (choice == 3)
+        {
+            CreateFile();
+        }
         if (choice == 2)
         {
             ReadUser(stud);
@@ -34,11 +40,11 @@ int main()
         }
         if (choice == 1)
         {
-            string fileName;
             ReadFile(stud);
             SortChoice(stud);
             Result(stud);
         }
-
-        return 0;
+    }
+    
+    return 0;
 }

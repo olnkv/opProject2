@@ -21,14 +21,14 @@ struct User
     int exRes;         // egzamino rezultatai
 };
 
-
 void SortChoice(vector<User> &stud);
-int RandNumber();
+int RandNumber(int size);
 void ReadFile(vector<User> &stud);
+void CreateFile();
+void SortFile();
 void ReadUser(vector<User> &stud);
 void Result(vector<User> &stud);
 double Average(User stud);
 double Median(User stud);
-
 
 #endif
