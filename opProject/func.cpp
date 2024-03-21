@@ -6,13 +6,15 @@ int paz, st; // generuojamu pazymiu ir studentu skaicius
 string file; // failo pavadinimas
 auto start = high_resolution_clock::now();
 auto stop = high_resolution_clock::now();
-duration<double> cElapsed;
+duration<double> cElapsed = duration<double>::zero();
+
 
 void SortChoice(vector<User> &stud)
 {
     int choice;
     cout << "Rusiavimo pasirinikimas - (\"1\" - pagal varda; \"2\" - pagal pavarde; \n\"3\" - pagal vidurkio galutini; \"4\" - pagal medianos galutini): ";
     cin >> choice;
+    auto start = high_resolution_clock::now();
     if (choice == 1)
         sort(stud.begin(), stud.end(), [](const User &a, const User &b)
              { return a.name < b.name; });
@@ -25,6 +27,34 @@ void SortChoice(vector<User> &stud)
     if (choice == 4)
         sort(stud.begin(), stud.end(), [](const User &a, const User &b)
              { return Median(a) < Median(b); });
+    auto stop = high_resolution_clock::now();
+    duration<double> elapsed = stop - start;
+    cout << "Duomenu rusiavimo laikas: " << elapsed.count() << " sekundes" << endl;
+    cElapsed += elapsed;
+}
+
+void SortChoiceList(list<listUser> & stud)
+{
+//    int choice;
+//    cout << "Rusiavimo pasirinikimas - (\"1\" - pagal varda; \"2\" - pagal pavarde; \n\"3\" - pagal vidurkio galutini; \"4\" - pagal medianos galutini): ";
+//    cin >> choice;
+//    auto start = high_resolution_clock::now();
+//    if (choice == 1)
+//        sort(stud.begin(), stud.end(), [](const User &a, const User &b)
+//             { return a.name < b.name; });
+//    if (choice == 2)
+//        sort(stud.begin(), stud.end(), [](const User &a, const User &b)
+//             { return a.surname < b.surname; });
+//    if (choice == 3)
+//        sort(stud.begin(), stud.end(), [](const User &a, const User &b)
+//             { return Average(a) < Average(b); });
+//    if (choice == 4)
+//        sort(stud.begin(), stud.end(), [](const User &a, const User &b)
+//             { return Median(a) < Median(b); });
+//    auto stop = high_resolution_clock::now();
+//    duration<double> elapsed = stop - start;
+//    cout << "Duomenu rusiavimo laikas: " << elapsed.count() << " sekundes" << endl;
+//    cElapsed += elapsed;
 }
 
 int RandNumber()
@@ -61,9 +91,10 @@ void ReadFile(vector<User> &stud)
             cin >> file;
             if (file == "exit")
                 exit(0);
+            ifstream rd(file);
         }
     }
-    
+
     string line;
     int grade;
     rd.ignore(1000, '\n');
@@ -72,6 +103,58 @@ void ReadFile(vector<User> &stud)
     {
         istringstream iss(line);
         User temp;
+        iss >> temp.name >> temp.surname;
+        while (iss >> grade)
+            temp.hwRes.push_back(grade);
+        temp.exRes = temp.hwRes.back();
+        temp.hwRes.pop_back();
+        stud.push_back(temp);
+    }
+    rd.close();
+    auto stop = high_resolution_clock::now();
+    duration<double> elapsed = stop - start;
+    cout << "Failo nuskaitymo laikas: " << elapsed.count() << " sekundes" << endl;
+    cElapsed = elapsed;
+}
+
+void ReadFileList(list<listUser> &stud)
+{
+    cout << "Irasykite failo varda (\"exit\", kad baigti darba): ";
+    cin >> file;
+    if (file == "exit")
+        exit(0);
+    ifstream rd(file);
+    while (true)
+    {
+        try
+        {
+            if (!rd.is_open())
+                throw runtime_error("Nepavyko atidaryti failo.");
+            else
+            {
+                ifstream rd(file);
+                break;
+            }
+        }
+        catch (const runtime_error &e)
+        {
+            cout << e.what() << endl;
+            cout << "Irasykite failo varda (\"exit\", kad baigti darba): ";
+            cin >> file;
+            if (file == "exit")
+                exit(0);
+            ifstream rd(file);
+        }
+    }
+
+    string line;
+    int grade;
+    rd.ignore(1000, '\n');
+    auto start = high_resolution_clock::now();
+    while (getline(rd, line))
+    {
+        istringstream iss(line);
+        listUser temp;
         iss >> temp.name >> temp.surname;
         while (iss >> grade)
             temp.hwRes.push_back(grade);
@@ -109,13 +192,13 @@ void ReadUser(vector<User> &stud)
             cout << "Programos eigos pasirinkimas - (\"1\" - ivedimas ranka; \"2\" - generuoti pazymius; \"3\" - generuoti pazymius, bei studentu vardus; \"4\" - baigti darba): ";
         }
     }
-    
+
     if (choice == 4)
     {
         cout << "Programos uzdarymas" << endl;
         exit(0);
     }
-    
+
     if (choice == 3)
     {
         cout << "Studentu skaicius: ";
@@ -167,7 +250,7 @@ void ReadUser(vector<User> &stud)
             stud.push_back(temp);
         }
     }
-    
+
     if (choice == 1 || choice == 2)
     {
         while (true)
@@ -179,7 +262,7 @@ void ReadUser(vector<User> &stud)
                 break;
             cout << "Pavarde: ";
             cin >> temp.surname;
-            
+
             if (choice == 2)
             {
                 cout << "Namu darbu payzmiu skaicius: ";
@@ -225,11 +308,19 @@ void ReadUser(vector<User> &stud)
 
 void Result(vector<User> &stud)
 {
-    cout << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
-    cout << "------------------------------------------------------------------" << endl;
-    cout << fixed << setprecision(2);
-    for (const auto &i : stud)
-        cout << left << setw(15) << i.surname << setw(15) << i.name << setw(20) << Average(i) << setw(15) << Median(i) << endl;
+    if (stud.size() < 1)
+    {
+        cout << "Nera duomenu vektoriaus masyve :(" << endl;
+    }
+    else
+    {
+        cout << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
+        cout << "------------------------------------------------------------------" << endl;
+        cout << fixed << setprecision(2);
+        for (const auto &i : stud)
+            cout << left << setw(15) << i.surname << setw(15) << i.name << setw(20) << Average(i) << setw(15) << Median(i) << endl;
+    }
+
     // Ivesties patikrinimui
     // for (const auto &i : stud)
     // {
@@ -260,6 +351,7 @@ double Median(User stud)
 
 void CreateFile()
 {
+
     cout << "Sukurkite failo pavadinima: ";
     cin >> file;
     cout << "Studentu skaicius: ";
@@ -281,9 +373,9 @@ void CreateFile()
     }
     out.close();
     auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(stop - start);
+    duration<double> elapsed = stop - start;
     cout << "Failo sukurimo laikas: "
-    << duration.count() << " mikrosekundes" << endl;
+         << elapsed.count() << " sekundes" << endl;
 }
 
 void SortFile(vector<User> &stud)
@@ -295,15 +387,15 @@ void SortFile(vector<User> &stud)
     bool vExist = false;
     auto fullStart = high_resolution_clock::now();
     auto start = high_resolution_clock::now();
-    
+
     for (int i = 0; i < stud.size(); i++)
-        if(Average(stud[i]) >= 5.0)
+        if (Average(stud[i]) >= 5.0)
         {
             kiet.push_back(stud[i]);
             kExist = true;
         }
     for (int i = 0; i < stud.size(); i++)
-        if(Average(stud[i]) < 5.0)
+        if (Average(stud[i]) < 5.0)
         {
             varg.push_back(stud[i]);
             vExist = true;
@@ -311,16 +403,16 @@ void SortFile(vector<User> &stud)
     auto stop = high_resolution_clock::now();
     duration<double> elapsed = stop - start;
     cout << "Rusiavimo i dvi grupes laikas: "
-    << elapsed.count() << " sekundes" << endl;
-    
+         << elapsed.count() << " sekundes" << endl;
+
     start = high_resolution_clock::now();
     ofstream out1("Kietiakai.txt");
-    if(kExist)
+    if (kExist)
     {
         out1 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
         out1 << "------------------------------------------------------------------" << endl;
         out1 << fixed << setprecision(2);
-        for(int i = 0; i < kiet.size(); i++)
+        for (int i = 0; i < kiet.size(); i++)
             out1 << left << setw(15) << kiet[i].surname << setw(15) << kiet[i].name << setw(20) << Average(kiet[i]) << setw(15) << Median(kiet[i]) << endl;
     }
     else
@@ -329,16 +421,16 @@ void SortFile(vector<User> &stud)
     stop = high_resolution_clock::now();
     elapsed = stop - start;
     cout << "Kietiaku irasymo laikas: "
-    << elapsed.count() << " sekundes" << endl;
-    
+         << elapsed.count() << " sekundes" << endl;
+
     start = high_resolution_clock::now();
     ofstream out2("Vargsiukai.txt");
-    if(vExist)
+    if (vExist)
     {
         out2 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
         out2 << "------------------------------------------------------------------" << endl;
         out2 << fixed << setprecision(2);
-        for(int i = 0; i < kiet.size(); i++)
+        for (int i = 0; i < kiet.size(); i++)
             out1 << left << setw(15) << varg[i].surname << setw(15) << varg[i].name << setw(20) << Average(varg[i]) << setw(15) << Median(varg[i]) << endl;
     }
     else
@@ -347,9 +439,9 @@ void SortFile(vector<User> &stud)
     stop = high_resolution_clock::now();
     elapsed = stop - start;
     cout << "Vargsiuku irasymo laikas: "
-    << elapsed.count() << " sekundes" << endl;
-    auto fullStop =high_resolution_clock::now();
+         << elapsed.count() << " sekundes" << endl;
+    auto fullStop = high_resolution_clock::now();
     elapsed = fullStop - fullStart;
     cout << "Testo laikas: "
-    << elapsed.count() + cElapsed.count() << " sekundes" << endl;
+         << elapsed.count() + cElapsed.count() << " sekundes" << endl;
 }
