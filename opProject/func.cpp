@@ -35,26 +35,18 @@ void SortChoice(vector<User> &stud)
 
 void SortChoiceList(list<listUser> & stud)
 {
-//    int choice;
-//    cout << "Rusiavimo pasirinikimas - (\"1\" - pagal varda; \"2\" - pagal pavarde; \n\"3\" - pagal vidurkio galutini; \"4\" - pagal medianos galutini): ";
-//    cin >> choice;
-//    auto start = high_resolution_clock::now();
-//    if (choice == 1)
-//        sort(stud.begin(), stud.end(), [](const User &a, const User &b)
-//             { return a.name < b.name; });
-//    if (choice == 2)
-//        sort(stud.begin(), stud.end(), [](const User &a, const User &b)
-//             { return a.surname < b.surname; });
-//    if (choice == 3)
-//        sort(stud.begin(), stud.end(), [](const User &a, const User &b)
-//             { return Average(a) < Average(b); });
-//    if (choice == 4)
-//        sort(stud.begin(), stud.end(), [](const User &a, const User &b)
-//             { return Median(a) < Median(b); });
-//    auto stop = high_resolution_clock::now();
-//    duration<double> elapsed = stop - start;
-//    cout << "Duomenu rusiavimo laikas: " << elapsed.count() << " sekundes" << endl;
-//    cElapsed += elapsed;
+    int choice;
+    cout << "Rusiavimo pasirinikimas - (\"1\" - pagal varda; \"2\" - pagal pavarde;): ";
+    cin >> choice;
+    auto start = high_resolution_clock::now();
+    if (choice == 1)
+        stud.sort([](const listUser &a, const listUser &b) {return a.name < b.name;});
+    if (choice == 2)
+        stud.sort([](const listUser &a, const listUser &b) {return a.surname < b.surname;});
+    auto stop = high_resolution_clock::now();
+    duration<double> elapsed = stop - start;
+    cout << "Duomenu rusiavimo laikas: " << elapsed.count() << " sekundes" << endl;
+    cElapsed += elapsed;
 }
 
 int RandNumber()
