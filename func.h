@@ -22,9 +22,19 @@ struct User
     int exRes;         // egzamino rezultatai
 };
 
+struct listUser
+{
+    string name;
+    string surname;
+    list<int> hwRes;
+    int exRes;
+};
+
 void SortChoice(vector<User> &stud);
+void SortChoiceList(list<listUser> &stud);
 int RandNumber(int size);
 void ReadFile(vector<User> &stud);
+void ReadFileList(list<listUser> &stud);
 void CreateFile();
 void SortFile(vector<User> &stud);
 void ReadUser(vector<User> &stud);
