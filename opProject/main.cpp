@@ -5,6 +5,7 @@ int main()
     cout << "Sveiki!" << endl;
     vector<User> stud;
     list<listUser> listStud;
+    deque<dqUser> dqStud;
     int choice;
     int nextChoice;
     while (true)
@@ -39,6 +40,8 @@ int main()
                 SortFile(stud);
             if (nextChoice == 2)
                 SortFileList(listStud);
+            if (nextChoice == 3)
+                SortFileDq(dqStud);
         }
             
         if (choice == 5)
@@ -53,6 +56,8 @@ int main()
                 SortChoice(stud);
             if (nextChoice == 2)
                 SortChoiceList(listStud);
+            if (nextChoice == 3)
+                SortChoiceDq(dqStud);
         }
         if (choice == 2)
             Result(stud);
@@ -64,6 +69,8 @@ int main()
                 ReadFile(stud);
             if (nextChoice == 2)
                 ReadFileList(listStud);
+            if (nextChoice == 3)
+                ReadFileDq(dqStud);
         }
     }
 

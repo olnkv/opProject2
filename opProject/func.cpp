@@ -36,13 +36,36 @@ void SortChoice(vector<User> &stud)
 void SortChoiceList(list<listUser> & stud)
 {
     int choice;
-    cout << "Rusiavimo pasirinikimas - (\"1\" - pagal varda; \"2\" - pagal pavarde;): ";
+    cout << "Rusiavimo pasirinikimas - (\"1\" - pagal varda; \"2\" - pagal pavarde; \"3\" - pagal vidurkio galutini): ";
     cin >> choice;
     auto start = high_resolution_clock::now();
     if (choice == 1)
         stud.sort([](const listUser &a, const listUser &b) {return a.name < b.name;});
     if (choice == 2)
         stud.sort([](const listUser &a, const listUser &b) {return a.surname < b.surname;});
+    if (choice == 3)
+        stud.sort([](const listUser &a, const listUser &b) {return AverageList(a) < AverageList(b);});
+    auto stop = high_resolution_clock::now();
+    duration<double> elapsed = stop - start;
+    cout << "Duomenu rusiavimo laikas: " << elapsed.count() << " sekundes" << endl;
+    cElapsed += elapsed;
+}
+
+void SortChoiceDq(deque<dqUser> &stud)
+{
+    int choice;
+    cout << "Rusiavimo pasirinikimas - (\"1\" - pagal varda; \"2\" - pagal pavarde; \"3\" - pagal vidurkio galutini): ";
+    cin >> choice;
+    auto start = high_resolution_clock::now();
+    if (choice == 1)
+        sort(stud.begin(), stud.end(), [](const dqUser &a, const dqUser &b)
+             { return a.name < b.name; });
+    if (choice == 2)
+        sort(stud.begin(), stud.end(), [](const dqUser &a, const dqUser &b)
+             { return a.surname < b.surname; });
+    if (choice == 3)
+        sort(stud.begin(), stud.end(), [](const dqUser &a, const dqUser &b)
+             { return AverageDq(a) < AverageDq(b); });
     auto stop = high_resolution_clock::now();
     duration<double> elapsed = stop - start;
     cout << "Duomenu rusiavimo laikas: " << elapsed.count() << " sekundes" << endl;
@@ -147,6 +170,58 @@ void ReadFileList(list<listUser> &stud)
     {
         istringstream iss(line);
         listUser temp;
+        iss >> temp.name >> temp.surname;
+        while (iss >> grade)
+            temp.hwRes.push_back(grade);
+        temp.exRes = temp.hwRes.back();
+        temp.hwRes.pop_back();
+        stud.push_back(temp);
+    }
+    rd.close();
+    auto stop = high_resolution_clock::now();
+    duration<double> elapsed = stop - start;
+    cout << "Failo nuskaitymo laikas: " << elapsed.count() << " sekundes" << endl;
+    cElapsed = elapsed;
+}
+
+void ReadFileDq(deque<dqUser> & stud)
+{
+    cout << "Irasykite failo varda (\"exit\", kad baigti darba): ";
+    cin >> file;
+    if (file == "exit")
+        exit(0);
+    ifstream rd(file);
+    while (true)
+    {
+        try
+        {
+            if (!rd.is_open())
+                throw runtime_error("Nepavyko atidaryti failo.");
+            else
+            {
+                ifstream rd(file);
+                break;
+            }
+        }
+        catch (const runtime_error &e)
+        {
+            cout << e.what() << endl;
+            cout << "Irasykite failo varda (\"exit\", kad baigti darba): ";
+            cin >> file;
+            if (file == "exit")
+                exit(0);
+            ifstream rd(file);
+        }
+    }
+
+    string line;
+    int grade;
+    rd.ignore(1000, '\n');
+    auto start = high_resolution_clock::now();
+    while (getline(rd, line))
+    {
+        istringstream iss(line);
+        dqUser temp;
         iss >> temp.name >> temp.surname;
         while (iss >> grade)
             temp.hwRes.push_back(grade);
@@ -339,6 +414,14 @@ double AverageList(listUser stud)
     return 0.4 * avg + 0.6 * stud.exRes;
 }
 
+double AverageDq(dqUser stud)
+{
+    double avg = 0.0;
+    avg = accumulate(stud.hwRes.begin(), stud.hwRes.end(), 0.0);
+    avg /= stud.hwRes.size();
+    return 0.4 * avg + 0.6 * stud.exRes;
+}
+
 double Median(User stud)
 {
     double med;
@@ -380,7 +463,6 @@ void CreateFile()
 
 void SortFile(vector<User> &stud)
 {
-    ReadFile(stud);
     vector<User> kiet;
     vector<User> varg;
     bool kExist = false;
@@ -442,13 +524,12 @@ void SortFile(vector<User> &stud)
          << elapsed.count() << " sekundes" << endl;
     auto fullStop = high_resolution_clock::now();
     elapsed = fullStop - fullStart;
-    cout << "Testo laikas: "
-         << elapsed.count() + cElapsed.count() << " sekundes" << endl;
+//    cout << "Testo laikas: "
+//         << elapsed.count() << " sekundes" << endl;
 }
 
 void SortFileList(list<listUser> &stud)
 {
-    ReadFileList(stud);
     list<listUser> kiet;
     list<listUser> varg;
     bool kExist = false;
@@ -514,6 +595,77 @@ void SortFileList(list<listUser> &stud)
          << elapsed.count() << " sekundes" << endl;
     auto fullStop = high_resolution_clock::now();
     elapsed = fullStop - fullStart;
-    cout << "Testo laikas: "
-         << elapsed.count() + cElapsed.count() << " sekundes" << endl;
+//    cout << "Testo laikas: "
+//         << elapsed.count() << " sekundes" << endl;
+}
+
+void SortFileDq(deque<dqUser> &stud)
+{
+    deque<dqUser> kiet;
+    deque<dqUser> varg;
+    bool kExist = false;
+    bool vExist = false;
+    auto fullStart = high_resolution_clock::now();
+    auto start = high_resolution_clock::now();
+
+    for (auto it = stud.begin(); it != stud.end(); ++it) {
+        if (AverageDq(*it) >= 5.0) {
+            kiet.push_back(*it);
+            kExist = true;
+        } else {
+            varg.push_back(*it);
+            vExist = true;
+        }
+    }
+
+    auto stop = high_resolution_clock::now();
+    duration<double> elapsed = stop - start;
+    cout << "Rusiavimo i dvi grupes laikas: "
+         << elapsed.count() << " sekundes" << endl;
+
+    start = high_resolution_clock::now();
+    ofstream out1("Kietiakai.txt");
+    if (kExist)
+    {
+        out1 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
+        out1 << "------------------------------------------------------------------" << endl;
+        out1 << fixed << setprecision(2);
+        for (const auto& i : kiet) {
+            out1 << left << setw(15) << i.surname
+            << setw(15) << i.name
+            << setw(20) << AverageDq(i) <<endl;
+        }
+    }
+    else
+        out1 << "Kietiaku nera :(";
+    out1.close();
+    stop = high_resolution_clock::now();
+    elapsed = stop - start;
+    cout << "Kietiaku irasymo laikas: "
+         << elapsed.count() << " sekundes" << endl;
+
+    start = high_resolution_clock::now();
+    ofstream out2("Vargsiukai.txt");
+    if (vExist)
+    {
+        out2 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
+        out2 << "------------------------------------------------------------------" << endl;
+        out2 << fixed << setprecision(2);
+        for (const auto& i : varg) {
+            out2 << left << setw(15) << i.surname
+            << setw(15) << i.name
+            << setw(20) << AverageDq(i) <<endl;
+        }
+    }
+    else
+        out2 << "Vargsiuku nera :)";
+    out2.close();
+    stop = high_resolution_clock::now();
+    elapsed = stop - start;
+    cout << "Vargsiuku irasymo laikas: "
+         << elapsed.count() << " sekundes" << endl;
+    auto fullStop = high_resolution_clock::now();
+    elapsed = fullStop - fullStart;
+//    cout << "Testo laikas: "
+//         << elapsed.count() << " sekundes" << endl;
 }
