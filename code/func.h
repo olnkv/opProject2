@@ -46,7 +46,7 @@ void SortChoiceDq(deque<dqUser> &stud);
 int RandNumber(int size);
 void ReadFile(vector<User> &stud);
 void ReadFileList(list<listUser> &stud);
-void ReadFileDq(deque<dqUser> & stud);
+void ReadFileDq(deque<dqUser> &stud);
 void CreateFile();
 void SortFile(vector<User> &stud);
 void SortFileList(list<listUser> &stud);

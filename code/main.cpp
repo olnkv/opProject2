@@ -43,7 +43,7 @@ int main()
             if (nextChoice == 3)
                 SortFileDq(dqStud);
         }
-            
+
         if (choice == 5)
             CreateFile();
         if (choice == 4)
