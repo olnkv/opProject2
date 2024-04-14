@@ -502,46 +502,45 @@ void SortFile(vector<User> &stud)
     duration<double> elapsed = stop - start;
     cout << "Rusiavimo i dvi grupes laikas: "
          << elapsed.count() << " sekundes" << endl;
-    //
-    //    start = high_resolution_clock::now();
-    //    ofstream out1("Kietiakai.txt");
-    //    if (kExist)
-    //    {
-    //        out1 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
-    //        out1 << "------------------------------------------------------------------" << endl;
-    //        out1 << fixed << setprecision(2);
-    //        for (int i = 0; i < kiet.size(); i++)
-    //            out1 << left << setw(15) << kiet[i].surname << setw(15) << kiet[i].name << setw(20) << Average(kiet[i]) << setw(15) << Median(kiet[i]) << endl;
-    //    }
-    //    else
-    //        out1 << "Kietiaku nera :(";
-    //    out1.close();
-    //    stop = high_resolution_clock::now();
-    //    elapsed = stop - start;
-    //    cout << "Kietiaku irasymo laikas: "
-    //         << elapsed.count() << " sekundes" << endl;
-    //
-    //    start = high_resolution_clock::now();
-    //    ofstream out2("Vargsiukai.txt");
-    //    if (vExist)
-    //    {
-    //        out2 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
-    //        out2 << "------------------------------------------------------------------" << endl;
-    //        out2 << fixed << setprecision(2);
-    //        for (int i = 0; i < varg.size(); i++)
-    //            out1 << left << setw(15) << varg[i].surname << setw(15) << varg[i].name << setw(20) << Average(varg[i]) << setw(15) << Median(varg[i]) << endl;
-    //    }
-    //    else
-    //        out2 << "Vargsiuku nera :)";
-    //    out2.close();
-    //    stop = high_resolution_clock::now();
-    //    elapsed = stop - start;
-    //    cout << "Vargsiuku irasymo laikas: "
-    //         << elapsed.count() << " sekundes" << endl;
-    //    auto fullStop = high_resolution_clock::now();
-    //    elapsed = fullStop - fullStart;
-    //    cout << "Testo laikas: "
-    //         << elapsed.count() << " sekundes" << endl;
+       start = high_resolution_clock::now();
+       ofstream out1("Kietiakai.txt");
+       if (kExist)
+       {
+           out1 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
+           out1 << "------------------------------------------------------------------" << endl;
+           out1 << fixed << setprecision(2);
+           for (int i = 0; i < kiet.size(); i++)
+               out1 << left << setw(15) << kiet[i].surname << setw(15) << kiet[i].name << setw(20) << Average(kiet[i]) << setw(15) << Median(kiet[i]) << endl;
+       }
+       else
+           out1 << "Kietiaku nera :(";
+       out1.close();
+       stop = high_resolution_clock::now();
+       elapsed = stop - start;
+       cout << "Kietiaku irasymo laikas: "
+            << elapsed.count() << " sekundes" << endl;
+    
+       start = high_resolution_clock::now();
+       ofstream out2("Vargsiukai.txt");
+       if (vExist)
+       {
+           out2 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
+           out2 << "------------------------------------------------------------------" << endl;
+           out2 << fixed << setprecision(2);
+           for (int i = 0; i < varg.size(); i++)
+               out1 << left << setw(15) << varg[i].surname << setw(15) << varg[i].name << setw(20) << Average(varg[i]) << setw(15) << Median(varg[i]) << endl;
+       }
+       else
+           out2 << "Vargsiuku nera :)";
+       out2.close();
+       stop = high_resolution_clock::now();
+       elapsed = stop - start;
+       cout << "Vargsiuku irasymo laikas: "
+            << elapsed.count() << " sekundes" << endl;
+       auto fullStop = high_resolution_clock::now();
+       elapsed = fullStop - fullStart;
+       cout << "Testo laikas: "
+            << elapsed.count() << " sekundes" << endl;
 }
 
 void SortFileList(list<listUser> &stud)
@@ -571,52 +570,51 @@ void SortFileList(list<listUser> &stud)
     duration<double> elapsed = stop - start;
     cout << "Rusiavimo i dvi grupes laikas: "
          << elapsed.count() << " sekundes" << endl;
-    //
-    //    start = high_resolution_clock::now();
-    //    ofstream out1("Kietiakai.txt");
-    //    if (kExist)
-    //    {
-    //        out1 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
-    //        out1 << "------------------------------------------------------------------" << endl;
-    //        out1 << fixed << setprecision(2);
-    //        for (const auto& i : kiet) {
-    //            out1 << left << setw(15) << i.surname
-    //            << setw(15) << i.name
-    //            << setw(20) << AverageList(i) <<endl;
-    //        }
-    //    }
-    //    else
-    //        out1 << "Kietiaku nera :(";
-    //    out1.close();
-    //    stop = high_resolution_clock::now();
-    //    elapsed = stop - start;
-    //    cout << "Kietiaku irasymo laikas: "
-    //         << elapsed.count() << " sekundes" << endl;
-    //
-    //    start = high_resolution_clock::now();
-    //    ofstream out2("Vargsiukai.txt");
-    //    if (vExist)
-    //    {
-    //        out2 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
-    //        out2 << "------------------------------------------------------------------" << endl;
-    //        out2 << fixed << setprecision(2);
-    //        for (const auto& i : varg) {
-    //            out2 << left << setw(15) << i.surname
-    //            << setw(15) << i.name
-    //            << setw(20) << AverageList(i) <<endl;
-    //        }
-    //    }
-    //    else
-    //        out2 << "Vargsiuku nera :)";
-    //    out2.close();
-    //    stop = high_resolution_clock::now();
-    //    elapsed = stop - start;
-    //    cout << "Vargsiuku irasymo laikas: "
-    //         << elapsed.count() << " sekundes" << endl;
-    //    auto fullStop = high_resolution_clock::now();
-    //    elapsed = fullStop - fullStart;
-    //    cout << "Testo laikas: "
-    //         << elapsed.count() << " sekundes" << endl;
+       start = high_resolution_clock::now();
+       ofstream out1("Kietiakai.txt");
+       if (kExist)
+       {
+           out1 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
+           out1 << "------------------------------------------------------------------" << endl;
+           out1 << fixed << setprecision(2);
+           for (const auto& i : kiet) {
+               out1 << left << setw(15) << i.surname
+               << setw(15) << i.name
+               << setw(20) << AverageList(i) <<endl;
+           }
+       }
+       else
+           out1 << "Kietiaku nera :(";
+       out1.close();
+       stop = high_resolution_clock::now();
+       elapsed = stop - start;
+       cout << "Kietiaku irasymo laikas: "
+            << elapsed.count() << " sekundes" << endl;
+    
+       start = high_resolution_clock::now();
+       ofstream out2("Vargsiukai.txt");
+       if (vExist)
+       {
+           out2 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
+           out2 << "------------------------------------------------------------------" << endl;
+           out2 << fixed << setprecision(2);
+           for (const auto& i : varg) {
+               out2 << left << setw(15) << i.surname
+               << setw(15) << i.name
+               << setw(20) << AverageList(i) <<endl;
+           }
+       }
+       else
+           out2 << "Vargsiuku nera :)";
+       out2.close();
+       stop = high_resolution_clock::now();
+       elapsed = stop - start;
+       cout << "Vargsiuku irasymo laikas: "
+            << elapsed.count() << " sekundes" << endl;
+       auto fullStop = high_resolution_clock::now();
+       elapsed = fullStop - fullStart;
+       cout << "Testo laikas: "
+            << elapsed.count() << " sekundes" << endl;
 }
 
 void SortFileDq(deque<dqUser> &stud)
@@ -646,50 +644,49 @@ void SortFileDq(deque<dqUser> &stud)
     duration<double> elapsed = stop - start;
     cout << "Rusiavimo i dvi grupes laikas: "
          << elapsed.count() << " sekundes" << endl;
-    //
-    //    start = high_resolution_clock::now();
-    //    ofstream out1("Kietiakai.txt");
-    //    if (kExist)
-    //    {
-    //        out1 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
-    //        out1 << "------------------------------------------------------------------" << endl;
-    //        out1 << fixed << setprecision(2);
-    //        for (const auto& i : kiet) {
-    //            out1 << left << setw(15) << i.surname
-    //            << setw(15) << i.name
-    //            << setw(20) << AverageDq(i) <<endl;
-    //        }
-    //    }
-    //    else
-    //        out1 << "Kietiaku nera :(";
-    //    out1.close();
-    //    stop = high_resolution_clock::now();
-    //    elapsed = stop - start;
-    //    cout << "Kietiaku irasymo laikas: "
-    //         << elapsed.count() << " sekundes" << endl;
-    //
-    //    start = high_resolution_clock::now();
-    //    ofstream out2("Vargsiukai.txt");
-    //    if (vExist)
-    //    {
-    //        out2 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
-    //        out2 << "------------------------------------------------------------------" << endl;
-    //        out2 << fixed << setprecision(2);
-    //        for (const auto& i : varg) {
-    //            out2 << left << setw(15) << i.surname
-    //            << setw(15) << i.name
-    //            << setw(20) << AverageDq(i) <<endl;
-    //        }
-    //    }
-    //    else
-    //        out2 << "Vargsiuku nera :)";
-    //    out2.close();
-    //    stop = high_resolution_clock::now();
-    //    elapsed = stop - start;
-    //    cout << "Vargsiuku irasymo laikas: "
-    //         << elapsed.count() << " sekundes" << endl;
-    //    auto fullStop = high_resolution_clock::now();
-    //    elapsed = fullStop - fullStart;
-    //    cout << "Testo laikas: "
-    //         << elapsed.count() << " sekundes" << endl;
+       start = high_resolution_clock::now();
+       ofstream out1("Kietiakai.txt");
+       if (kExist)
+       {
+           out1 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
+           out1 << "------------------------------------------------------------------" << endl;
+           out1 << fixed << setprecision(2);
+           for (const auto& i : kiet) {
+               out1 << left << setw(15) << i.surname
+               << setw(15) << i.name
+               << setw(20) << AverageDq(i) <<endl;
+           }
+       }
+       else
+           out1 << "Kietiaku nera :(";
+       out1.close();
+       stop = high_resolution_clock::now();
+       elapsed = stop - start;
+       cout << "Kietiaku irasymo laikas: "
+            << elapsed.count() << " sekundes" << endl;
+    
+       start = high_resolution_clock::now();
+       ofstream out2("Vargsiukai.txt");
+       if (vExist)
+       {
+           out2 << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(15) << "Galutinis (Med.)" << endl;
+           out2 << "------------------------------------------------------------------" << endl;
+           out2 << fixed << setprecision(2);
+           for (const auto& i : varg) {
+               out2 << left << setw(15) << i.surname
+               << setw(15) << i.name
+               << setw(20) << AverageDq(i) <<endl;
+           }
+       }
+       else
+           out2 << "Vargsiuku nera :)";
+       out2.close();
+       stop = high_resolution_clock::now();
+       elapsed = stop - start;
+       cout << "Vargsiuku irasymo laikas: "
+            << elapsed.count() << " sekundes" << endl;
+       auto fullStop = high_resolution_clock::now();
+       elapsed = fullStop - fullStart;
+       cout << "Testo laikas: "
+            << elapsed.count() << " sekundes" << endl;
 }
