@@ -1,4 +1,4 @@
-//cd /c/Users/Edwin/Desktop/opProject/code
+//cd /c/Users/Edwin/Desktop/opProject/codea
 #include "func.h"
 
 int main()
