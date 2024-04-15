@@ -8,54 +8,52 @@
 #include <algorithm>
 #include <vector>
 #include <random>
-#include <chrono>
-#include <list>
-#include <iterator>
-#include <deque>
 
-using namespace std;
-using namespace std::chrono;
-
-struct User
+class Student
 {
-    string name;       // vardas
-    string surname;    // pavarde
-    vector<int> hwRes; // namu darbu rezultatai
-    int exRes;         // egzamino rezultatai
+private:
+    std::string name_;
+    std::string surname_;
+    double exRes_;
+    std::vector<double> hwRes_;
+    double avg_, med_;
+
+public:
+    Student();
+    Student(std::string name, std::string surname);
+    inline std::string get_Name() const { return name_; }
+    inline std::string get_Surname() const { return surname_; }
+    std::vector<double> get_HwRes() const { return hwRes_; }
+    double get_exRes() const { return exRes_; }
+    double get_Avg() const { return avg_; }
+    double get_Med() const { return med_; }
+    bool hwRes_Empty() const { return hwRes_.empty(); }
+    int hwRes_Size() const { return hwRes_.size(); }
+    void hw_Sort() { sort(hwRes_.begin(), hwRes_.end()); }
+    int hw_Sum() { return std::accumulate(hwRes_.begin(), hwRes_.end(), 0); }
+    int hw_Last() { return hwRes_.back(); }
+    ~Student();
+
+    void set_Name(std::string name) { this->name_ = name; }
+    void set_Surame(std::string surname) { this->surname_ = surname; }
+    void set_ExRes(double exRes) { this->exRes_ = exRes; }
+    void set_Avg(double avg) { this->avg_ = avg; }
+    void set_Med(double med) { this->med_ = med; }
+    void set_Hw(int hw) { this->hwRes_.push_back(hw); }
+    void del_LastHw() { this->hwRes_.pop_back(); }
+    void clear_Hw() { this->hwRes_.clear(); }
+    double Average();
+    double Median();
 };
 
-struct listUser
-{
-    string name;
-    string surname;
-    list<int> hwRes;
-    int exRes;
-};
-
-struct dqUser
-{
-    string name;
-    string surname;
-    deque<int> hwRes;
-    int exRes;
-};
-
-void SortChoice(vector<User> &stud);
-void SortChoiceList(list<listUser> &stud);
-void SortChoiceDq(deque<dqUser> &stud);
-int RandNumber(int size);
-void ReadFile(vector<User> &stud);
-void ReadFileList(list<listUser> &stud);
-void ReadFileDq(deque<dqUser> &stud);
-void CreateFile();
-void SortFile(vector<User> &stud);
-void SortFileList(list<listUser> &stud);
-void SortFileDq(deque<dqUser> &stud);
-void ReadUser(vector<User> &stud);
-void Result(vector<User> &stud);
-double Average(User stud);
-double AverageList(listUser stud);
-double AverageDq(dqUser stud);
-double Median(User stud);
+// void SortChoice(vector<User> &stud);
+// int RandNumber(int size);
+// void ReadFile(vector<User> &stud);
+// void CreateFile();
+// void SortFile(vector<User> &stud);
+// void ReadUser(vector<User> &stud);
+// void Result(vector<User> &stud);
+// double Average(User stud);
+// double Median(User stud);
 
 #endif
