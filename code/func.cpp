@@ -106,9 +106,9 @@ void ReadFile(std::vector<Student> &studVector)
         std::cin >> fileName;
         if (fileName == "exit")
             return;
-        
+
         std::ifstream input(fileName);
-        if(!input.is_open())
+        if (!input.is_open())
             throw std::runtime_error("Nepavyko atidaryti failo! :(");
 
         const auto start = std::chrono::high_resolution_clock::now();
@@ -116,19 +116,19 @@ void ReadFile(std::vector<Student> &studVector)
         Student stud;
         std::string line;
         input.ignore(1000, '\n');
-        while(std::getline(input, line))
+        while (std::getline(input, line))
         {
             std::istringstream iss(line);
             std::string name, surname;
-            if(!(iss>>name>>surname))
+            if (!(iss >> name >> surname))
                 throw std::runtime_error("Nepavyko nuskaityti failo! :(");
             stud.set_Name(name);
             stud.set_Surame(surname);
             int hw;
             stud.clear_Hw();
-            while(iss>>hw)
+            while (iss >> hw)
                 stud.set_Hw(hw);
-            if(!stud.hwRes_Empty())
+            if (!stud.hwRes_Empty())
             {
                 stud.set_ExRes(stud.hw_Last());
                 stud.del_LastHw();
@@ -140,7 +140,7 @@ void ReadFile(std::vector<Student> &studVector)
         }
 
         input.close();
-        std::cout<<"Failas sekmingai nuskaitytas :)"<<std::endl;
+        std::cout << "Failas sekmingai nuskaitytas :)" << std::endl;
         studVector.shrink_to_fit();
         const auto end = std::chrono::high_resolution_clock::now();
         const std::chrono::duration<double> diff = end - start;
@@ -151,3 +151,33 @@ void ReadFile(std::vector<Student> &studVector)
         std::cerr << "Klaida: " << e.what() << '\n';
     }
 }
+
+void Selection(std::vector<Student> &studVector, int choice)
+{
+    try
+    {
+        if (choice == 1)
+        {
+            auto best = std::find_if(studVector.begin(), studVector.end(), [](const Student &stud)
+                                     { return stud.get_Avg() >= 5.0; });
+            if (best != studVector.end())
+                studVector.erase(best, studVector.end());
+            else
+                throw std::runtime_error("Nera studento su vidurkiu >= 5.0");
+        }
+        if (choice == 2)
+        {
+            auto best = std::find_if(studVector.begin(), studVector.end(), [](const Student &stud)
+                                     { return stud.get_Med() >= 5.0; });
+            if (best != studVector.end())
+                studVector.erase(best, studVector.end());
+            else
+                throw std::runtime_error("Nera studento su mediana >= 5.0");
+        }
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
+

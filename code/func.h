@@ -55,5 +55,6 @@ bool compareMed(const Student &a, const Student &b);
 int RandGrade();
 void GenFile(int size, int hw);
 void ReadFile(std::vector<Student> &studVector);
+void Selection(std::vector<Student> &studVector, int choice);
 
 #endif
