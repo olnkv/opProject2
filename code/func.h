@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <vector>
 #include <random>
+#include <string>
 
 class Student
 {
@@ -46,14 +47,11 @@ public:
     double Median();
 };
 
-// void SortChoice(vector<User> &stud);
-// int RandNumber(int size);
-// void ReadFile(vector<User> &stud);
-// void CreateFile();
-// void SortFile(vector<User> &stud);
-// void ReadUser(vector<User> &stud);
-// void Result(vector<User> &stud);
-// double Average(User stud);
-// double Median(User stud);
+bool compareName(const Student &a, const Student &b);
+bool compareSurname(const Student &a, const Student &b);
+bool compareAvg(const Student &a, const Student &b);
+bool compareMed(const Student &a, const Student &b);
+int RandGrade();
+void GenFile(int size, int hw);
 
 #endif

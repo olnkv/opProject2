@@ -62,3 +62,35 @@ bool compareMed(const Student &a, const Student &b)
 {
     return a.get_Med() < b.get_Med();
 }
+
+int RandGrade()
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(1, 10);
+    return dis(gen);
+}
+
+void GenFile(int size, int hw)
+{
+    std::string fileName = "Stud" + std::to_string(size) + ".txt";
+    std::ofstream output(fileName);
+    std::stringstream out;
+
+    out << std::left << std::setw(25) << "Vardas" << std::setw(25) << "Pavarde";
+    for (int i = 1; i <= hw; i++)
+        out << std::left << std::setw(10) << "ND" + std::to_string(i) << " ";
+    out << std::left << std::setw(10) << "Egz." << std::endl;
+    for (int i = 1; i <= size; i++)
+    {
+        out << std::left << std::setw(25) << "Vardas" + std::to_string(i) << std::setw(25) << "Pavarde" + std::to_string(i);
+        for (int j = 0; j < hw; j++)
+            out << std::left << std::setw(10) << RandGrade() << " ";
+        out << std::left << std::setw(10) << RandGrade() << std::endl;
+    }
+
+    output << out.str();
+    out.clear();
+    output.close();
+    std::cout << "Failas: " << fileName << " sugeneruotas sekmingai :)" << std::endl;
+}
