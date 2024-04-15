@@ -9,6 +9,7 @@
 #include <vector>
 #include <random>
 #include <string>
+#include <chrono>
 
 class Student
 {
@@ -53,5 +54,6 @@ bool compareAvg(const Student &a, const Student &b);
 bool compareMed(const Student &a, const Student &b);
 int RandGrade();
 void GenFile(int size, int hw);
+void ReadFile(std::vector<Student> &studVector);
 
 #endif

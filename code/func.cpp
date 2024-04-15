@@ -94,3 +94,60 @@ void GenFile(int size, int hw)
     output.close();
     std::cout << "Failas: " << fileName << " sugeneruotas sekmingai :)" << std::endl;
 }
+
+void ReadFile(std::vector<Student> &studVector)
+{
+    try
+    {
+        std::cout << "Jusu failai: " << std::endl;
+        system("dir *.txt");
+        std::string fileName;
+        std::cout << "Irasykite failo pavadinima (\"exit\", kad baigti darba): ";
+        std::cin >> fileName;
+        if (fileName == "exit")
+            return;
+        
+        std::ifstream input(fileName);
+        if(!input.is_open())
+            throw std::runtime_error("Nepavyko atidaryti failo! :(");
+
+        const auto start = std::chrono::high_resolution_clock::now();
+
+        Student stud;
+        std::string line;
+        input.ignore(1000, '\n');
+        while(std::getline(input, line))
+        {
+            std::istringstream iss(line);
+            std::string name, surname;
+            if(!(iss>>name>>surname))
+                throw std::runtime_error("Nepavyko nuskaityti failo! :(");
+            stud.set_Name(name);
+            stud.set_Surame(surname);
+            int hw;
+            stud.clear_Hw();
+            while(iss>>hw)
+                stud.set_Hw(hw);
+            if(!stud.hwRes_Empty())
+            {
+                stud.set_ExRes(stud.hw_Last());
+                stud.del_LastHw();
+                stud.hw_Sort();
+                stud.set_Avg(stud.Average());
+                stud.set_Med(stud.Median());
+            }
+            studVector.push_back(stud);
+        }
+
+        input.close();
+        std::cout<<"Failas sekmingai nuskaitytas :)"<<std::endl;
+        studVector.shrink_to_fit();
+        const auto end = std::chrono::high_resolution_clock::now();
+        const std::chrono::duration<double> diff = end - start;
+        std::cout << "Failo nuskaitymo laikas: " << diff.count() << " sekundes" << std::endl;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Klaida: " << e.what() << '\n';
+    }
+}

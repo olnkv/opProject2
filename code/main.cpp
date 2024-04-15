@@ -3,10 +3,8 @@
 
 int main()
 {
-    Student stud;
-    stud = Student();
-
-    std::cout<<stud.get_Name()<<std::endl;
-
+    std::vector<Student> studVector;
+    //GenFile(100,10);
+    ReadFile(studVector);
     return 0;
 }
