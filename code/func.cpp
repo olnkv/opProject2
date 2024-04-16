@@ -161,21 +161,29 @@ void Selection(std::vector<Student> &studVector, int choice)
     {
         if (choice == 1)
         {
+            const auto start = std::chrono::high_resolution_clock::now();
             auto best = std::find_if(studVector.begin(), studVector.end(), [](const Student &stud)
                                      { return stud.get_Avg() >= 5.0; });
             if (best != studVector.end())
                 studVector.erase(best, studVector.end());
             else
                 throw std::runtime_error("Nera studento su vidurkiu >= 5.0");
+            const auto end = std::chrono::high_resolution_clock::now();
+            const std::chrono::duration<double> diff = end - start;
+            std::cout << "Studentu atrankos laikas: " << diff.count() << " sekundes" << std::endl;
         }
         if (choice == 2)
         {
+            const auto start = std::chrono::high_resolution_clock::now();
             auto best = std::find_if(studVector.begin(), studVector.end(), [](const Student &stud)
                                      { return stud.get_Med() >= 5.0; });
             if (best != studVector.end())
                 studVector.erase(best, studVector.end());
             else
                 throw std::runtime_error("Nera studento su mediana >= 5.0");
+            const auto end = std::chrono::high_resolution_clock::now();
+            const std::chrono::duration<double> diff = end - start;
+            std::cout << "Studentu atrankos laikas: " << diff.count() << " sekundes" << std::endl;
         }
     }
     catch (const std::exception &e)
