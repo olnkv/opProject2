@@ -37,7 +37,7 @@ public:
     ~Student();
 
     void set_Name(std::string name) { this->name_ = name; }
-    void set_Surame(std::string surname) { this->surname_ = surname; }
+    void set_Surname(std::string surname) { this->surname_ = surname; }
     void set_ExRes(double exRes) { this->exRes_ = exRes; }
     void set_Avg(double avg) { this->avg_ = avg; }
     void set_Med(double med) { this->med_ = med; }
@@ -53,8 +53,13 @@ bool compareSurname(const Student &a, const Student &b);
 bool compareAvg(const Student &a, const Student &b);
 bool compareMed(const Student &a, const Student &b);
 int RandGrade();
+void CinError();
 void GenFile(int size, int hw);
 void ReadFile(std::vector<Student> &studVector);
 void Selection(std::vector<Student> &studVector, int choice);
+void Results(std::vector<Student> studVector);
+void ReadUser(std::vector<Student> &studVector);
+void GenUser(std::vector<Student> &studVector, int size, int hw);
+
 
 #endif

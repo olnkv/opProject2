@@ -1,5 +1,8 @@
 #include "func.h"
 
+const std::vector<std::string> nameList{"Nojus", "Domas", "Arvydas", "Rokas", "Vytautas", "Aurimas", "Joris", "Ramunas", "Povilas", "Mindaugas"};
+const std::vector<std::string> surnameList{"Vaicekauskas", "Kateiva", "Kardauskas", "Zalionis", "Norkus", "Ozelis", "Stasiunas", "Oginskas", "Petrauskas", "Pakuckas"};
+
 Student::Student() : hwRes_({0})
 {
     name_ = "NeraVardo";
@@ -123,7 +126,7 @@ void ReadFile(std::vector<Student> &studVector)
             if (!(iss >> name >> surname))
                 throw std::runtime_error("Nepavyko nuskaityti failo! :(");
             stud.set_Name(name);
-            stud.set_Surame(surname);
+            stud.set_Surname(surname);
             int hw;
             stud.clear_Hw();
             while (iss >> hw)
@@ -148,7 +151,7 @@ void ReadFile(std::vector<Student> &studVector)
     }
     catch (const std::exception &e)
     {
-        std::cerr << "Klaida: " << e.what() << '\n';
+        std::cerr << e.what() << '\n';
     }
 }
 
@@ -181,3 +184,79 @@ void Selection(std::vector<Student> &studVector, int choice)
     }
 }
 
+void Results(std::vector<Student> studVector)
+{
+    try
+    {
+        if (studVector.size() < 1)
+            throw std::runtime_error("Nera duomenu vektoriaus masyve!");
+        std::cout << std::left << std::setw(15) << "Pavarde" << std::setw(15) << "Vardas" << std::setw(20) << "Galutinis (Vid.)" << std::setw(15) << "Galutinis (Med.)" << std::endl;
+        std::cout << "------------------------------------------------------------------" << std::endl;
+        std::cout << std::fixed << std::setprecision(2);
+        for (const auto &i : studVector)
+            std::cout << std::left << std::setw(15) << i.get_Surname() << std::setw(15) << i.get_Name() << std::setw(20) << i.get_Avg() << std::setw(15) << i.get_Med() << std::endl;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
+
+void ReadUser(std::vector<Student> &studVector)
+{
+    try
+    {
+        Student temp;
+        std::string name, surname;
+        int hw, ex;
+
+        std::cout << "Vardas (\"exit\", kad uzbaigti): ";
+        std::cin >> name;
+        if (name == "exit")
+            return;
+        std::cin >> surname;
+        temp.set_Name(name);
+        temp.set_Surname(surname);
+        temp.clear_Hw();
+        while (true)
+        {
+            std::cout << "Namu darbu pazymys (\"-1\", kad uzbaigti): ";
+            std::cin >> hw;
+            if (std::cin.fail())
+                throw std::runtime_error("Klaidinga ivestis");
+            if (hw < 0)
+                break;
+            temp.set_Hw(hw);
+        }
+        std::cout << "Egzamino pazymys: ";
+        std::cin >> ex;
+        if (std::cin.fail())
+            throw std::runtime_error("Klaidinga ivestis");
+        temp.set_ExRes(ex);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
+
+void GenUser(std::vector<Student> &studVector, int size, int hw)
+{
+    for (int i = 0; i < size; i++)
+    {
+        Student temp;
+        temp.set_Name(nameList[RandGrade()]);
+        temp.set_Surname(surnameList[RandGrade()]);
+        for (int j = 0; j < hw; j++)
+            temp.set_Hw(RandGrade());
+        temp.set_ExRes(RandGrade());
+        studVector.push_back(temp);
+    }
+}
+
+void CinError()
+{
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    throw std::runtime_error("Klaidinga ivestis");
+}
