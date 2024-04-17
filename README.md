@@ -32,7 +32,7 @@
 - Samsung SSD 970 EVO Plus 500GB
 
 #### Struct (v1.0)
-![alt text](https://github.com/olnkv/opProjectNew/blob/v1.1/photos/v1.1/sc1.png)
+![alt text](https://github.com/olnkv/opProjectNew/blob/v1.1/photos/v1.1/sc2.png)
 
                                                  100000 Studentų
 
@@ -51,7 +51,7 @@
 | .exe failo dydis =    | 214Kb                         | 204Kb                         | 230Kb                         |
 
 #### Class (v1.1)
-![alt text](https://github.com/olnkv/opProjectNew/blob/v1.1/photos/v1.1/sc2.png)
+![alt text](https://github.com/olnkv/opProjectNew/blob/v1.1/photos/v1.1/sc1.png)
 
                                                  100000 Studentų
 
