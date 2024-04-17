@@ -33,6 +33,7 @@
 
 #### Struct (v1.0)
 ![alt text](https://github.com/olnkv/opProjectNew/blob/v1.1/photos/v1.1/sc1.png)
+
                                                  100000 Studentų
 
 |                       | -O1                           | -O2                           | -O3                           |
@@ -51,6 +52,7 @@
 
 #### Class (v1.1)
 ![alt text](https://github.com/olnkv/opProjectNew/blob/v1.1/photos/v1.1/sc2.png)
+
                                                  100000 Studentų
 
 |                       | -O1                           | -O2                           | -O3                           |
