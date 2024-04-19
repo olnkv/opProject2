@@ -50,9 +50,6 @@
 | Studentų skirstymas = | 0,7604s                       | 0,861333s                     | 0,8094s                       |
 | .exe failo dydis =    | 203Kb                         | 197Kb                         | 207Kb                         |
 
-
-Rezultatai:
-![alt text](https://github.com/olnkv/opProjectNew/blob/v1.1/photos/v1.0/sc6.png)
 ## Changelog
 - Pirmasis pre-release v.pradinė (2024-02-16)
 Vartotojas gali įvesti duomenys pagal kuriuos atliekami galutinio balo skaičiavimai ir išvedami ant ekrano.
