@@ -61,5 +61,4 @@ void Results(std::vector<Student> studVector);
 void ReadUser(std::vector<Student> &studVector);
 void GenUser(std::vector<Student> &studVector, int size, int hw);
 
-
 #endif
