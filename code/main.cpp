@@ -59,7 +59,7 @@ int main()
                 std::cin >> choice;
                 if (std::cin.fail())
                     CinError();
-                if (choice < 1 && choice > 2)
+                if (choice < 1 || choice > 2)
                     throw std::runtime_error("Klaidinga ivestis");
                 Selection(studVector, choice);
             }

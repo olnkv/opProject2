@@ -17,7 +17,7 @@ private:
     std::string name_;
     std::string surname_;
     double exRes_;
-    std::vector<double> hwRes_;
+    std::vector<int> hwRes_;
     double avg_, med_;
 
 public:
@@ -25,7 +25,7 @@ public:
     Student(std::string name, std::string surname);
     inline std::string get_Name() const { return name_; }
     inline std::string get_Surname() const { return surname_; }
-    std::vector<double> get_HwRes() const { return hwRes_; }
+    std::vector<int> get_HwRes() const { return hwRes_; }
     double get_exRes() const { return exRes_; }
     double get_Avg() const { return avg_; }
     double get_Med() const { return med_; }

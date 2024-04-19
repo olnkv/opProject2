@@ -36,7 +36,7 @@ double Student::Average()
 
 double Student::Median()
 {
-    std::vector<double> hwRes = get_HwRes();
+    std::vector<int> hwRes = get_HwRes();
     int size = hwRes_Size();
     if (size % 2 == 0 && size > 0)
         return (hwRes[size / 2 - 1] + hwRes[size / 2]) / 2.0 * 0.4 + 0.6 * get_exRes();
@@ -218,29 +218,36 @@ void ReadUser(std::vector<Student> &studVector)
         std::string name, surname;
         int hw, ex;
 
-        std::cout << "Vardas (\"exit\", kad uzbaigti): ";
-        std::cin >> name;
-        if (name == "exit")
-            return;
-        std::cin >> surname;
-        temp.set_Name(name);
-        temp.set_Surname(surname);
-        temp.clear_Hw();
         while (true)
         {
-            std::cout << "Namu darbu pazymys (\"-1\", kad uzbaigti): ";
-            std::cin >> hw;
+            std::cout << "Vardas (\"exit\", kad uzbaigti): ";
+            std::cin >> name;
+            if (name == "exit")
+                break;
+            std::cout << "Pavarde: ";
+            std::cin >> surname;
+            temp.set_Name(name);
+            temp.set_Surname(surname);
+            temp.clear_Hw();
+            while (true)
+            {
+                std::cout << "Namu darbu pazymys (\"-1\", kad uzbaigti): ";
+                std::cin >> hw;
+                if (std::cin.fail())
+                    throw std::runtime_error("Klaidinga ivestis");
+                if (hw < 0)
+                    break;
+                temp.set_Hw(hw);
+            }
+            std::cout << "Egzamino pazymys: ";
+            std::cin >> ex;
             if (std::cin.fail())
                 throw std::runtime_error("Klaidinga ivestis");
-            if (hw < 0)
-                break;
-            temp.set_Hw(hw);
+            temp.set_ExRes(ex);
+            temp.set_Avg(temp.Average());
+            temp.set_Med(temp.Median());
+            studVector.push_back(temp);
         }
-        std::cout << "Egzamino pazymys: ";
-        std::cin >> ex;
-        if (std::cin.fail())
-            throw std::runtime_error("Klaidinga ivestis");
-        temp.set_ExRes(ex);
     }
     catch (const std::exception &e)
     {
@@ -253,11 +260,14 @@ void GenUser(std::vector<Student> &studVector, int size, int hw)
     for (int i = 0; i < size; i++)
     {
         Student temp;
-        temp.set_Name(nameList[RandGrade()]);
-        temp.set_Surname(surnameList[RandGrade()]);
+        temp.set_Name(nameList[RandGrade() - 1]);
+        temp.set_Surname(surnameList[RandGrade() - 1]);
+        temp.clear_Hw();
         for (int j = 0; j < hw; j++)
             temp.set_Hw(RandGrade());
         temp.set_ExRes(RandGrade());
+        temp.set_Avg(temp.Average());
+        temp.set_Med(temp.Median());
         studVector.push_back(temp);
     }
 }
