@@ -103,10 +103,8 @@ std::istream &operator>>(std::istream &input, Student &Student_)
 {
     std::string name, surname;
     int hw, ex;
-    std::cout << "Vardas (\"exit\", kad uzbaigti): ";
+    std::cout << "Vardas: ";
     std::cin >> name;
-    if (name == "exit")
-        return;
     std::cout << "Pavarde: ";
     std::cin >> surname;
     Student_.set_Name(name);
@@ -131,6 +129,21 @@ std::istream &operator>>(std::istream &input, Student &Student_)
     Student_.set_Med(Student_.Median());
     std::cout << "As esu ivedimo per konsole operatoriuje >>" << std::endl;
     return input;
+}
+
+std::ostream &operator<<(std::ostream &output, const Student &Student_)
+{
+    output << std::left << std::setw(15) << Student_.get_Surname() << std::setw(15) << Student_.get_Name() << std::setw(20) << Student_.get_Avg() << std::setw(15) << Student_.get_Med() << std::endl;
+    std::cout << "As esu isvedimo i konsole operatoriuje <<" << std::endl;
+}
+
+std::ofstream &operator<<(std::ofstream &output, const Student &Student_)
+{
+    std::stringstream out;
+    out << std::left << std::setw(15) << Student_.get_Surname() << std::setw(15) << Student_.get_Name() << std::setw(20) << Student_.get_Avg() << std::setw(15) << Student_.get_Med() << std::endl;
+    output << out.str();
+    out.clear();
+    return output;
 }
 
 double Student::Average()
@@ -293,7 +306,7 @@ void Results(std::vector<Student> studVector)
         std::cout << "------------------------------------------------------------------" << std::endl;
         std::cout << std::fixed << std::setprecision(2);
         for (const auto &i : studVector)
-            std::cout << std::left << std::setw(15) << i.get_Surname() << std::setw(15) << i.get_Name() << std::setw(20) << i.get_Avg() << std::setw(15) << i.get_Med() << std::endl;
+            std::cout << i << std::endl;
     }
     catch (const std::exception &e)
     {
@@ -306,11 +319,8 @@ void ReadUser(std::vector<Student> &studVector)
     try
     {
         Student temp;
-        while (true)
-        {
-            std::cin >> temp;
-            studVector.push_back(temp);
-        }
+        std::cin >> temp;
+        studVector.push_back(temp);
     }
     catch (const std::exception &e)
     {
