@@ -60,8 +60,10 @@ public:
     Student(Student &&Student_) noexcept;
     Student &operator=(const Student &Student_);
     Student &operator=(Student &&Student_) noexcept;
-    friend std::istringstream& operator>>(std::istringstream& fileName, Student &Student_);
+    friend std::istringstream& operator>>(std::istringstream& input, Student &Student_);
     friend std::istream& operator>>(std::istream& input, Student &Student_);
+    friend std::ostream& operator<<(std::ostream& output, const Student &Student_);
+    friend std::ofstream& operator<<(std::ofstream& output, const Student &Student_);
 
 };
 
