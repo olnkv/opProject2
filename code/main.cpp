@@ -67,6 +67,7 @@ int main()
                 Results(studVector);
             if (choice == 7)
                 break;
+            system("pause");
         }
         catch (const std::exception &e)
         {

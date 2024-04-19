@@ -26,6 +26,126 @@ Student::~Student()
     hwRes_.clear();
 }
 
+Student::Student(const Student &Student_)
+{
+    name_ = Student_.name_;
+    surname_ = Student_.surname_;
+    hwRes_ = Student_.hwRes_;
+    exRes_ = Student_.exRes_;
+    avg_ = Student_.avg_;
+    med_ = Student_.med_;
+}
+
+Student::Student(Student &&Student_) noexcept
+{
+    name_ = std::move(Student_.name_);
+    surname_ = std::move(Student_.surname_);
+    hwRes_ = std::move(Student_.hwRes_);
+    exRes_ = std::move(Student_.exRes_);
+    avg_ = std::move(Student_.avg_);
+    med_ = std::move(Student_.med_);
+    Student_.clear_All();
+    std::cout << "Perkelimo operatorius suveike" << std::endl;
+}
+
+Student &Student::operator=(const Student &Student_)
+{
+    if (this != &Student_)
+    {
+        name_ = Student_.name_;
+        surname_ = Student_.surname_;
+        hwRes_ = Student_.hwRes_;
+        exRes_ = Student_.exRes_;
+        avg_ = Student_.avg_;
+        med_ = Student_.med_;
+    }
+    std::cout << "Priskyrimo operatorius suveike" << std::endl;
+    return *this;
+}
+
+Student &Student::operator=(Student &&Student_) noexcept
+{
+    name_ = std::move(Student_.name_);
+    surname_ = std::move(Student_.surname_);
+    hwRes_ = std::move(Student_.hwRes_);
+    exRes_ = std::move(Student_.exRes_);
+    avg_ = std::move(Student_.avg_);
+    med_ = std::move(Student_.med_);
+    Student_.clear_All();
+    std::cout << "Perkelimo operatorius suveike" << std::endl;
+    return *this;
+}
+
+std::istringstream &operator>>(std::istringstream &input, Student &Student_)
+{
+    std::string name, surname;
+    if (!(input >> name >> surname))
+        throw std::runtime_error("Nepavyko nuskaityti vardo ir pavardes");
+    Student_.set_Name(name);
+    Student_.set_Name(surname);
+    int hw;
+    Student_.clear_Hw();
+    while (input >> hw)
+        Student_.set_Hw(hw);
+    if (!Student_.hwRes_Empty())
+    {
+        Student_.set_ExRes(Student_.hw_Last());
+        Student_.del_LastHw();
+        Student_.hw_Sort();
+        Student_.set_Avg(Student_.Average());
+        Student_.set_Med(Student_.Median());
+    }
+    std::cout << "As esu ivedimo is failo operatoriuje >>" << std::endl;
+    return input;
+}
+
+std::istream &operator>>(std::istream &input, Student &Student_)
+{
+    std::string name, surname;
+    int hw, ex;
+    std::cout << "Vardas: ";
+    std::cin >> name;
+    std::cout << "Pavarde: ";
+    std::cin >> surname;
+    Student_.set_Name(name);
+    Student_.set_Surname(surname);
+    Student_.clear_Hw();
+    while (true)
+    {
+        std::cout << "Namu darbu pazymys (\"-1\", kad uzbaigti): ";
+        std::cin >> hw;
+        if (std::cin.fail())
+            throw std::runtime_error("Klaidinga ivestis");
+        if (hw < 0)
+            break;
+        Student_.set_Hw(hw);
+    }
+    std::cout << "Egzamino pazymys: ";
+    std::cin >> ex;
+    if (std::cin.fail())
+        throw std::runtime_error("Klaidinga ivestis");
+    Student_.set_ExRes(ex);
+    Student_.set_Avg(Student_.Average());
+    Student_.set_Med(Student_.Median());
+    std::cout << "As esu ivedimo per konsole operatoriuje >>" << std::endl;
+    return input;
+}
+
+std::ostream &operator<<(std::ostream &output, const Student &Student_)
+{
+    output << std::left << std::setw(15) << Student_.get_Surname() << std::setw(15) << Student_.get_Name() << std::setw(20) << Student_.get_Avg() << std::setw(15) << Student_.get_Med() << std::endl;
+    std::cout << "As esu isvedimo i konsole operatoriuje <<" << std::endl;
+}
+
+std::ofstream &operator<<(std::ofstream &output, const Student &Student_)
+{
+    std::stringstream out;
+    out << std::left << std::setw(15) << Student_.get_Surname() << std::setw(15) << Student_.get_Name() << std::setw(20) << Student_.get_Avg() << std::setw(15) << Student_.get_Med() << std::endl;
+    output << out.str();
+    out.clear();
+    return output;
+}
+
 double Student::Average()
 {
     if (hwRes_Size() > 0)
@@ -76,8 +196,8 @@ int RandGrade()
 
 void GenFile(int size, int hw)
 {
-    std::string fileName = "Stud" + std::to_string(size) + ".txt";
-    std::ofstream output(fileName);
+    std::string input = "Stud" + std::to_string(size) + ".txt";
+    std::ofstream output(input);
     std::stringstream out;
 
     out << std::left << std::setw(25) << "Vardas" << std::setw(25) << "Pavarde";
@@ -95,7 +215,7 @@ void GenFile(int size, int hw)
     output << out.str();
     out.clear();
     output.close();
-    std::cout << "Failas: " << fileName << " sugeneruotas sekmingai :)" << std::endl;
+    std::cout << "Failas: " << input << " sugeneruotas sekmingai :)" << std::endl;
 }
 
 void ReadFile(std::vector<Student> &studVector)
@@ -122,23 +242,7 @@ void ReadFile(std::vector<Student> &studVector)
         while (std::getline(input, line))
         {
             std::istringstream iss(line);
-            std::string name, surname;
-            if (!(iss >> name >> surname))
-                throw std::runtime_error("Nepavyko nuskaityti failo! :(");
-            stud.set_Name(name);
-            stud.set_Surname(surname);
-            int hw;
-            stud.clear_Hw();
-            while (iss >> hw)
-                stud.set_Hw(hw);
-            if (!stud.hwRes_Empty())
-            {
-                stud.set_ExRes(stud.hw_Last());
-                stud.del_LastHw();
-                stud.hw_Sort();
-                stud.set_Avg(stud.Average());
-                stud.set_Med(stud.Median());
-            }
+            iss >> stud;
             studVector.push_back(stud);
         }
 
@@ -202,7 +306,7 @@ void Results(std::vector<Student> studVector)
         std::cout << "------------------------------------------------------------------" << std::endl;
         std::cout << std::fixed << std::setprecision(2);
         for (const auto &i : studVector)
-            std::cout << std::left << std::setw(15) << i.get_Surname() << std::setw(15) << i.get_Name() << std::setw(20) << i.get_Avg() << std::setw(15) << i.get_Med() << std::endl;
+            std::cout << i << std::endl;
     }
     catch (const std::exception &e)
     {
@@ -215,39 +319,8 @@ void ReadUser(std::vector<Student> &studVector)
     try
     {
         Student temp;
-        std::string name, surname;
-        int hw, ex;
-
-        while (true)
-        {
-            std::cout << "Vardas (\"exit\", kad uzbaigti): ";
-            std::cin >> name;
-            if (name == "exit")
-                break;
-            std::cout << "Pavarde: ";
-            std::cin >> surname;
-            temp.set_Name(name);
-            temp.set_Surname(surname);
-            temp.clear_Hw();
-            while (true)
-            {
-                std::cout << "Namu darbu pazymys (\"-1\", kad uzbaigti): ";
-                std::cin >> hw;
-                if (std::cin.fail())
-                    throw std::runtime_error("Klaidinga ivestis");
-                if (hw < 0)
-                    break;
-                temp.set_Hw(hw);
-            }
-            std::cout << "Egzamino pazymys: ";
-            std::cin >> ex;
-            if (std::cin.fail())
-                throw std::runtime_error("Klaidinga ivestis");
-            temp.set_ExRes(ex);
-            temp.set_Avg(temp.Average());
-            temp.set_Med(temp.Median());
-            studVector.push_back(temp);
-        }
+        std::cin >> temp;
+        studVector.push_back(temp);
     }
     catch (const std::exception &e)
     {
