@@ -26,6 +26,43 @@ Student::~Student()
     hwRes_.clear();
 }
 
+Student::Student(const Student &Student_)
+{
+    name_ = Student_.name_;
+    surname_ = Student_.surname_;
+    hwRes_ = Student_.hwRes_;
+    exRes_ = Student_.exRes_;
+    avg_ = Student_.avg_;
+    med_ = Student_.med_;
+}
+
+Student &Student::operator=(const Student &Student_)
+{
+    if (this != &Student_)
+    {
+        name_ = Student_.name_;
+        surname_ = Student_.surname_;
+        hwRes_ = Student_.hwRes_;
+        exRes_ = Student_.exRes_;
+        avg_ = Student_.avg_;
+        med_ = Student_.med_;
+    }
+    std::cout << "Priskyrimo operatorius suveike" << std::endl;
+    return *this;
+}
+
+Student &Student::operator=(Student &&Student_) noexcept
+{
+    name_ = std::move(Student_.name_);
+    surname_ = std::move(Student_.surname_);
+    hwRes_ = std::move(Student_.hwRes_);
+    exRes_ = std::move(Student_.exRes_);
+    avg_ = std::move(Student_.avg_);
+    med_ = std::move(Student_.med_);
+    std::cout << "Perkelimo operatorius suveike" << std::endl;
+    return *this;
+}
+
 double Student::Average()
 {
     if (hwRes_Size() > 0)

@@ -44,8 +44,25 @@ public:
     void set_Hw(int hw) { this->hwRes_.push_back(hw); }
     void del_LastHw() { this->hwRes_.pop_back(); }
     void clear_Hw() { this->hwRes_.clear(); }
+    void clear_All()
+    {
+        this->name_.clear();
+        this->surname_.clear();
+        this->hwRes_.clear();
+        this->exRes_ = 0;
+        this->avg_ = 0.0;
+        this->med_ = 0.0;
+    }
     double Average();
     double Median();
+
+    Student(const Student &Student_);
+    Student(Student &&Student_) noexcept;
+    Student &operator=(const Student &Student_);
+    Student &operator=(Student &&Student_) noexcept;
+    friend std::istringstream& operator>>(std::istringstream& fileName, Student &Student_);
+    friend std::istream& operator>>(std::istream& input, Student &Student_);
+
 };
 
 bool compareName(const Student &a, const Student &b);
