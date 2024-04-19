@@ -36,6 +36,17 @@ Student::Student(const Student &Student_)
     med_ = Student_.med_;
 }
 
+Student::Student(Student &&Student_) noexcept
+{
+    name_ = std::move(Student_.name_);
+    surname_ = std::move(Student_.surname_);
+    hwRes_ = std::move(Student_.hwRes_);
+    exRes_ = std::move(Student_.exRes_);
+    avg_ = std::move(Student_.avg_);
+    med_ = std::move(Student_.med_);
+    std::cout << "Perkelimo operatorius suveike" << std::endl;
+}
+
 Student &Student::operator=(const Student &Student_)
 {
     if (this != &Student_)
@@ -61,6 +72,79 @@ Student &Student::operator=(Student &&Student_) noexcept
     med_ = std::move(Student_.med_);
     std::cout << "Perkelimo operatorius suveike" << std::endl;
     return *this;
+}
+
+std::istringstream &operator>>(std::istringstream &fileName, Student &Student_)
+{
+    std::string name, surname;
+    if (!(fileName >> name >> surname))
+        std::cerr << "Nepavyko nuskaityti vardo ir pavardes" << std::endl;
+
+    Student_.set_Name(name);
+    Student_.set_Name(surname);
+
+    int hw;
+    Student_.clear_Hw();
+    while (fileName >> hw)
+        Student_.set_Hw(hw);
+
+    if (!Student_.hwRes_Empty())
+    {
+        Student_.set_ExRes(Student_.hw_Last());
+        Student_.del_LastHw();
+        Student_.hw_Sort();
+        Student_.set_Avg(Student_.Average());
+        Student_.set_Med(Student_.Median());
+    }
+
+    std::cout << "As esu ivedimo is failo operatoriuje >>" << std::endl;
+    return fileName;
+}
+
+std::istream& operator>>(std::istream& input, Student &Student_)
+{
+    try
+    {
+        std::string name, surname;
+        int hw, ex;
+
+        while (true)
+        {
+            std::cout << "Vardas (\"exit\", kad uzbaigti): ";
+            std::cin >> name;
+            if (name == "exit")
+                break;
+            std::cout << "Pavarde: ";
+            std::cin >> surname;
+            Student_.set_Name(name);
+            Student_.set_Surname(surname);
+            Student_.clear_Hw();
+            while (true)
+            {
+                std::cout << "Namu darbu pazymys (\"-1\", kad uzbaigti): ";
+                std::cin >> hw;
+                if (std::cin.fail())
+                    throw std::runtime_error("Klaidinga ivestis");
+                if (hw < 0)
+                    break;
+                Student_.set_Hw(hw);
+            }
+            std::cout << "Egzamino pazymys: ";
+            std::cin >> ex;
+            if (std::cin.fail())
+                throw std::runtime_error("Klaidinga ivestis");
+            Student_.set_ExRes(ex);
+            Student_.set_Avg(Student_.Average());
+            Student_.set_Med(Student_.Median());
+        }
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    std::cout << "As esu ivedimo per konsole operatoriuje >>" << std::endl;
+    
+    return input;
 }
 
 double Student::Average()
