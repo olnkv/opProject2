@@ -135,6 +135,7 @@ std::ostream &operator<<(std::ostream &output, const Student &Student_)
 {
     output << std::left << std::setw(15) << Student_.get_Surname() << std::setw(15) << Student_.get_Name() << std::setw(20) << Student_.get_Avg() << std::setw(15) << Student_.get_Med() << std::endl;
     std::cout << "As esu isvedimo i konsole operatoriuje <<" << std::endl;
+    return output;
 }
 
 std::ofstream &operator<<(std::ofstream &output, const Student &Student_)
@@ -143,6 +144,7 @@ std::ofstream &operator<<(std::ofstream &output, const Student &Student_)
     out << std::left << std::setw(15) << Student_.get_Surname() << std::setw(15) << Student_.get_Name() << std::setw(20) << Student_.get_Avg() << std::setw(15) << Student_.get_Med() << std::endl;
     output << out.str();
     out.clear();
+    std::cout << "As esu isvedimo i faila operatoriuje <<" << std::endl;
     return output;
 }
 
