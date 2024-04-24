@@ -4,24 +4,24 @@
 int main()
 {
     std::vector<Student> studVector;
+    std::vector<Student> best;
     int choice;
 
-    Student Student1("Edvin", "Olenkovic");
-    Student Student2("Vardenis", "Pavardenis");
-    Student2.set_Avg(6);
-    Student2.set_Med(7);
-    std::cout<<Student1;
-    std::cout<<Student2;
-    Student Student3(Student1);
-    std::cout<<Student3;
-    Student Student4(std::move(Student2));
-    std::cout<<Student4;
-    Student Student5;
-    Student5 = Student1;
-    Student Student6;
-    Student6 = std::move(Student4);
+    // Student Student1("Edvin", "Olenkovic");
+    // Student Student2("Vardenis", "Pavardenis");
+    // Student2.set_Avg(6);
+    // Student2.set_Med(7);
+    // std::cout<<Student1;
+    // std::cout<<Student2;
+    // Student Student3(Student1);
+    // std::cout<<Student3;
+    // Student Student4(std::move(Student2));
+    // std::cout<<Student4;
+    // Student Student5;
+    // Student5 = Student1;
+    // Student Student6;
+    // Student6 = std::move(Student4);
 
-    return 0;
     std::cout << "Sveiki!" << std::endl;
     while (true)
         try
@@ -78,7 +78,7 @@ int main()
                     CinError();
                 if (choice < 1 || choice > 2)
                     throw std::runtime_error("Klaidinga ivestis");
-                Selection(studVector, choice);
+                Selection(studVector, best, choice);
             }
             if (choice == 6)
                 Results(studVector);

@@ -75,7 +75,7 @@ int RandGrade();
 void CinError();
 void GenFile(int size, int hw);
 void ReadFile(std::vector<Student> &studVector);
-void Selection(std::vector<Student> &studVector, int choice);
+void Selection(std::vector<Student> &studVector, std::vector<Student> &best, int choice);
 void Results(std::vector<Student> studVector);
 void ReadUser(std::vector<Student> &studVector);
 void GenUser(std::vector<Student> &studVector, int size, int hw);
