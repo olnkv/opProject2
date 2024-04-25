@@ -10,6 +10,7 @@ Student::Student() : hwRes_({0})
     exRes_ = 0;
     avg_ = 0.0;
     med_ = 0.0;
+    std::cout << "Konstruktorius tuscias suveike" << std::endl;
 }
 
 Student::Student(std::string name, std::string surname) : hwRes_({0})
@@ -19,11 +20,13 @@ Student::Student(std::string name, std::string surname) : hwRes_({0})
     exRes_ = 0;
     avg_ = 0.0;
     med_ = 0.0;
+    std::cout << "Konstruktorius su vardu suveike" << std::endl;
 }
 
 Student::~Student()
 {
     hwRes_.clear();
+    std::cout << "Destruktorius suveike" << std::endl;
 }
 
 Student::Student(const Student &Student_)
@@ -34,6 +37,7 @@ Student::Student(const Student &Student_)
     exRes_ = Student_.exRes_;
     avg_ = Student_.avg_;
     med_ = Student_.med_;
+    std::cout << "Kopijavimo konstruktorius suveike" << std::endl;
 }
 
 Student::Student(Student &&Student_) noexcept
@@ -45,7 +49,7 @@ Student::Student(Student &&Student_) noexcept
     avg_ = std::move(Student_.avg_);
     med_ = std::move(Student_.med_);
     Student_.clear_All();
-    std::cout << "Perkelimo operatorius suveike" << std::endl;
+    std::cout << "Perkelimo konstruktorius suveike" << std::endl;
 }
 
 Student &Student::operator=(const Student &Student_)
@@ -82,7 +86,7 @@ std::istringstream &operator>>(std::istringstream &input, Student &Student_)
     if (!(input >> name >> surname))
         throw std::runtime_error("Nepavyko nuskaityti vardo ir pavardes");
     Student_.set_Name(name);
-    Student_.set_Name(surname);
+    Student_.set_Surname(surname);
     int hw;
     Student_.clear_Hw();
     while (input >> hw)
@@ -135,6 +139,7 @@ std::ostream &operator<<(std::ostream &output, const Student &Student_)
 {
     output << std::left << std::setw(15) << Student_.get_Surname() << std::setw(15) << Student_.get_Name() << std::setw(20) << Student_.get_Avg() << std::setw(15) << Student_.get_Med() << std::endl;
     std::cout << "As esu isvedimo i konsole operatoriuje <<" << std::endl;
+    return output;
 }
 
 std::ofstream &operator<<(std::ofstream &output, const Student &Student_)
@@ -143,6 +148,7 @@ std::ofstream &operator<<(std::ofstream &output, const Student &Student_)
     out << std::left << std::setw(15) << Student_.get_Surname() << std::setw(15) << Student_.get_Name() << std::setw(20) << Student_.get_Avg() << std::setw(15) << Student_.get_Med() << std::endl;
     output << out.str();
     out.clear();
+    std::cout << "As esu isvedimo i faila operatoriuje <<" << std::endl;
     return output;
 }
 
@@ -223,7 +229,7 @@ void ReadFile(std::vector<Student> &studVector)
     try
     {
         std::cout << "Jusu failai: " << std::endl;
-        system("dir *.txt");
+        system("ls *.txt");
         std::string fileName;
         std::cout << "Irasykite failo pavadinima (\"exit\", kad baigti darba): ";
         std::cin >> fileName;
@@ -259,35 +265,89 @@ void ReadFile(std::vector<Student> &studVector)
     }
 }
 
-void Selection(std::vector<Student> &studVector, int choice)
+void Selection(std::vector<Student> &studVector, std::vector<Student> &best, int choice)
 {
     try
     {
         if (choice == 1)
         {
-            const auto start = std::chrono::high_resolution_clock::now();
-            auto best = std::find_if(studVector.begin(), studVector.end(), [](const Student &stud)
-                                     { return stud.get_Avg() >= 5.0; });
-            if (best != studVector.end())
-                studVector.erase(best, studVector.end());
-            else
+            const auto start1 = std::chrono::high_resolution_clock::now();
+            for (auto it = studVector.begin(); it != studVector.end();)
+            {
+                if (it->get_Avg() >= 5.0)
+                {
+                    best.push_back(std::move(*it));
+                    it = studVector.erase(it);
+                }
+                else
+                    ++it;
+            }
+            studVector.shrink_to_fit();
+            best.shrink_to_fit();
+            if (best.empty())
                 throw std::runtime_error("Nera studento su vidurkiu >= 5.0");
-            const auto end = std::chrono::high_resolution_clock::now();
-            const std::chrono::duration<double> diff = end - start;
-            std::cout << "Studentu atrankos laikas: " << diff.count() << " sekundes" << std::endl;
+            const auto end1 = std::chrono::high_resolution_clock::now();
+            const std::chrono::duration<double> diff1 = end1 - start1;
+            std::cout << "Studentu atrankos laikas: " << diff1.count() << " sekundes" << std::endl;
+
+            const auto start2 = std::chrono::high_resolution_clock::now();
+            std::ofstream output1("Kieti.txt");
+            output1 << std::left << std::setw(15) << "Pavarde" << std::setw(15) << "Vardas" << std::setw(20) << "Galutinis (Vid.)" << std::setw(15) << "Galutinis (Med.)" << std::endl;
+            output1 << "------------------------------------------------------------------" << std::endl;
+            output1 << std::fixed << std::setprecision(2);
+            for (const auto &i : best)
+                output1 << i << std::endl;
+            output1.close();
+            std::ofstream output2("Vargsiukai.txt");
+            output2 << std::left << std::setw(15) << "Pavarde" << std::setw(15) << "Vardas" << std::setw(20) << "Galutinis (Vid.)" << std::setw(15) << "Galutinis (Med.)" << std::endl;
+            output2 << "------------------------------------------------------------------" << std::endl;
+            output2 << std::fixed << std::setprecision(2);
+            for (const auto &i : studVector)
+                output2 << i << std::endl;
+            output2.close();
+            const auto end2 = std::chrono::high_resolution_clock::now();
+            const std::chrono::duration<double> diff2 = end2 - start2;
+            std::cout << "Atrinktu studentu irasymo i failus laikas: " << diff2.count() << " sekundes" << std::endl;
         }
         if (choice == 2)
         {
-            const auto start = std::chrono::high_resolution_clock::now();
-            auto best = std::find_if(studVector.begin(), studVector.end(), [](const Student &stud)
-                                     { return stud.get_Med() >= 5.0; });
-            if (best != studVector.end())
-                studVector.erase(best, studVector.end());
-            else
+            const auto start1 = std::chrono::high_resolution_clock::now();
+            for (auto it = studVector.begin(); it != studVector.end();)
+            {
+                if (it->get_Med() >= 5.0)
+                {
+                    best.push_back(std::move(*it));
+                    it = studVector.erase(it);
+                }
+                else
+                    ++it;
+            }
+            studVector.shrink_to_fit();
+            best.shrink_to_fit();
+            if (best.empty())
                 throw std::runtime_error("Nera studento su mediana >= 5.0");
-            const auto end = std::chrono::high_resolution_clock::now();
-            const std::chrono::duration<double> diff = end - start;
-            std::cout << "Studentu atrankos laikas: " << diff.count() << " sekundes" << std::endl;
+            const auto end1 = std::chrono::high_resolution_clock::now();
+            const std::chrono::duration<double> diff1 = end1 - start1;
+            std::cout << "Studentu atrankos laikas: " << diff1.count() << " sekundes" << std::endl;
+
+            const auto start2 = std::chrono::high_resolution_clock::now();
+            std::ofstream output1("Kieti.txt");
+            output1 << std::left << std::setw(15) << "Pavarde" << std::setw(15) << "Vardas" << std::setw(20) << "Galutinis (Vid.)" << std::setw(15) << "Galutinis (Med.)" << std::endl;
+            output1 << "------------------------------------------------------------------" << std::endl;
+            output1 << std::fixed << std::setprecision(2);
+            for (const auto &i : best)
+                output1 << i << std::endl;
+            output1.close();
+            std::ofstream output2("Vargsiukai.txt");
+            output2 << std::left << std::setw(15) << "Pavarde" << std::setw(15) << "Vardas" << std::setw(20) << "Galutinis (Vid.)" << std::setw(15) << "Galutinis (Med.)" << std::endl;
+            output2 << "------------------------------------------------------------------" << std::endl;
+            output2 << std::fixed << std::setprecision(2);
+            for (const auto &i : studVector)
+                output2 << i << std::endl;
+            output2.close();
+            const auto end2 = std::chrono::high_resolution_clock::now();
+            const std::chrono::duration<double> diff2 = end2 - start2;
+            std::cout << "Atrinktu studentu irasymo i failus laikas: " << diff2.count() << " sekundes" << std::endl;
         }
     }
     catch (const std::exception &e)

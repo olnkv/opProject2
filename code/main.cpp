@@ -4,7 +4,18 @@
 int main()
 {
     std::vector<Student> studVector;
+    std::vector<Student> best;
     int choice;
+
+    Student Student0;
+    Student Student1("Edvin", "Olenkovic");
+    Student Student2("Vardenis", "Pavardenis");
+    Student Student3(Student1);
+    Student Student4(std::move(Student2));
+    Student0 = Student1;
+    Student0 = std::move(Student4);
+    std::cout<<Student1<<std::endl;
+
     std::cout << "Sveiki!" << std::endl;
     while (true)
         try
@@ -61,7 +72,7 @@ int main()
                     CinError();
                 if (choice < 1 || choice > 2)
                     throw std::runtime_error("Klaidinga ivestis");
-                Selection(studVector, choice);
+                Selection(studVector, best, choice);
             }
             if (choice == 6)
                 Results(studVector);

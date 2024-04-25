@@ -1,4 +1,3 @@
-
 # Objektinio Programavimo Projektas
 Ši programa skirta studentų duomenų nuskaitymui - vardas, pavardė, namų darbų rezultatai ir egzamino rezultatas, ir galutinio balo apskaičiavimas pagal nurodytus kriterijus.
 
@@ -26,33 +25,15 @@
 3. Mielo naudojimosi!
 ## Autorius
 Šį programinį produktą sukūrė Edvin Olenkovič
-## v1.1 Testavimai
-- Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz
-- RAM(16,0 GB)
-- Samsung SSD 970 EVO Plus 500GB
+## Aprašymas apie perdengtus metodus (v1.2)
+### Įvesties perdengimo metodai
+- Duomenų įvestis rankiniu ir automatinių būdu įvyksta, kai duomenų skaitymui yra naudojamas `istream` objektas (šios programos atveju `std::cin`) t.y. programos eigos pasirinkimas - `"1" - Įvedimas ranka` ir `"2" - Generavimas`
+- Duomenų įvestis iš failo įvyksta, kai duomenų skaitymui naudojamas `istringstream` objektas. t.y. programos eigos pasirinkimas - `"3" - Skaitymas iš failo`
 
-#### Class (v1.1)
-![alt text](https://github.com/olnkv/opProjectNew/blob/v1.1/photos/v1.1/sc1.png)
+### Išvesties perdengimo metodai
+- Duomenų išvedimas per konsolę įvyksta, kai duomenų išvedimui yra naudojamas `ostream` objektas (šios programos atveju `std::cout`) t.y. programos eigos pasirinkimas - `"6" - Rezultatu išvedimas`
+- Duomenų išvedimas į failą įvyksta, kai duomenų išvedimui yra naudojamas `ofstream` objektas t.y. programos eigos pasirinkimas - `"5" - Atrinkti studentus`
 
-                                                 100000 Studentų
-
-|                       | -O1                           | -O2                           | -O3                           |
-|-----------------------|-------------------------------|-------------------------------|-------------------------------|
-| Skaitymas iš failo =  | 0,3567s                       | 0,372s                        | 0,3472s                       |
-| Studentų skirstymas = | 0,0748s                       | 0,0606s                       | 0,065s                        |
-| .exe failo dydis =    | 203Kb                         | 197Kb                         | 207Kb                         |
-
-                                                 1000000 Studentų
-
-|                       | -O1                           | -O2                           | -O3                           |
-|-----------------------|-------------------------------|-------------------------------|-------------------------------|
-| Skaitymas iš failo =  | 3,2986s                       | 3,554667s                     | 3,3614s                       |
-| Studentų skirstymas = | 0,7604s                       | 0,861333s                     | 0,8094s                       |
-| .exe failo dydis =    | 203Kb                         | 197Kb                         | 207Kb                         |
-
-
-Rezultatai:
-![alt text](https://github.com/olnkv/opProjectNew/blob/v1.1/photos/v1.0/sc6.png)
 ## Changelog
 - Pirmasis pre-release v.pradinė (2024-02-16)
 Vartotojas gali įvesti duomenys pagal kuriuos atliekami galutinio balo skaičiavimai ir išvedami ant ekrano.
@@ -68,3 +49,5 @@ Pridėtos failų generavimo, bei studentų paskirstymo ir rušiavimo funkcijos.
 Pridėtas konteinerio (vector, list, deque) pasirinkimas duomenų apdorojimui.
 - Release v1.1 (2024-04-12)
 Pilnas kodo peržiūrėjimas. Perėjimas nuo struct į class strukturą.
+- Release v1.2 (2024-04-19)
+Realizuotas "Rule of five" ir aprašyti įvesties ir išvesties operatoriai paprastesniam kodo rašymui
