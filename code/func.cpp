@@ -10,6 +10,7 @@ Student::Student() : hwRes_({0})
     exRes_ = 0;
     avg_ = 0.0;
     med_ = 0.0;
+    std::cout << "Konstruktorius tuscias suveike" << std::endl;
 }
 
 Student::Student(std::string name, std::string surname) : hwRes_({0})
@@ -19,11 +20,13 @@ Student::Student(std::string name, std::string surname) : hwRes_({0})
     exRes_ = 0;
     avg_ = 0.0;
     med_ = 0.0;
+    std::cout << "Konstruktorius su vardu suveike" << std::endl;
 }
 
 Student::~Student()
 {
     hwRes_.clear();
+    std::cout << "Destruktorius suveike" << std::endl;
 }
 
 Student::Student(const Student &Student_)
@@ -34,6 +37,7 @@ Student::Student(const Student &Student_)
     exRes_ = Student_.exRes_;
     avg_ = Student_.avg_;
     med_ = Student_.med_;
+    std::cout << "Kopijavimo konstruktorius suveike" << std::endl;
 }
 
 Student::Student(Student &&Student_) noexcept
@@ -45,7 +49,7 @@ Student::Student(Student &&Student_) noexcept
     avg_ = std::move(Student_.avg_);
     med_ = std::move(Student_.med_);
     Student_.clear_All();
-    // std::cout << "Perkelimo operatorius suveike" << std::endl;
+    std::cout << "Perkelimo konstruktorius suveike" << std::endl;
 }
 
 Student &Student::operator=(const Student &Student_)
@@ -59,7 +63,7 @@ Student &Student::operator=(const Student &Student_)
         avg_ = Student_.avg_;
         med_ = Student_.med_;
     }
-    // std::cout << "Priskyrimo operatorius suveike" << std::endl;
+    std::cout << "Priskyrimo operatorius suveike" << std::endl;
     return *this;
 }
 
@@ -72,7 +76,7 @@ Student &Student::operator=(Student &&Student_) noexcept
     avg_ = std::move(Student_.avg_);
     med_ = std::move(Student_.med_);
     Student_.clear_All();
-    // std::cout << "Perkelimo operatorius suveike" << std::endl;
+    std::cout << "Perkelimo operatorius suveike" << std::endl;
     return *this;
 }
 
@@ -95,7 +99,7 @@ std::istringstream &operator>>(std::istringstream &input, Student &Student_)
         Student_.set_Avg(Student_.Average());
         Student_.set_Med(Student_.Median());
     }
-    // std::cout << "As esu ivedimo is failo operatoriuje >>" << std::endl;
+    std::cout << "As esu ivedimo is failo operatoriuje >>" << std::endl;
     return input;
 }
 
@@ -127,14 +131,14 @@ std::istream &operator>>(std::istream &input, Student &Student_)
     Student_.set_ExRes(ex);
     Student_.set_Avg(Student_.Average());
     Student_.set_Med(Student_.Median());
-    // std::cout << "As esu ivedimo per konsole operatoriuje >>" << std::endl;
+    std::cout << "As esu ivedimo per konsole operatoriuje >>" << std::endl;
     return input;
 }
 
 std::ostream &operator<<(std::ostream &output, const Student &Student_)
 {
     output << std::left << std::setw(15) << Student_.get_Surname() << std::setw(15) << Student_.get_Name() << std::setw(20) << Student_.get_Avg() << std::setw(15) << Student_.get_Med() << std::endl;
-    // std::cout << "As esu isvedimo i konsole operatoriuje <<" << std::endl;
+    std::cout << "As esu isvedimo i konsole operatoriuje <<" << std::endl;
     return output;
 }
 
@@ -144,7 +148,7 @@ std::ofstream &operator<<(std::ofstream &output, const Student &Student_)
     out << std::left << std::setw(15) << Student_.get_Surname() << std::setw(15) << Student_.get_Name() << std::setw(20) << Student_.get_Avg() << std::setw(15) << Student_.get_Med() << std::endl;
     output << out.str();
     out.clear();
-    // std::cout << "As esu isvedimo i faila operatoriuje <<" << std::endl;
+    std::cout << "As esu isvedimo i faila operatoriuje <<" << std::endl;
     return output;
 }
 
