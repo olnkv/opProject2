@@ -10,12 +10,11 @@
 #include <random>
 #include <string>
 #include <chrono>
+#include "person.h"
 
-class Student
+class Student : public Person
 {
 private:
-    std::string name_;
-    std::string surname_;
     double exRes_;
     std::vector<int> hwRes_;
     double avg_, med_;
@@ -23,8 +22,6 @@ private:
 public:
     Student();
     Student(std::string name, std::string surname);
-    inline std::string get_Name() const { return name_; }
-    inline std::string get_Surname() const { return surname_; }
     std::vector<int> get_HwRes() const { return hwRes_; }
     double get_exRes() const { return exRes_; }
     double get_Avg() const { return avg_; }
@@ -36,8 +33,6 @@ public:
     int hw_Last() { return hwRes_.back(); }
     ~Student();
 
-    void set_Name(std::string name) { this->name_ = name; }
-    void set_Surname(std::string surname) { this->surname_ = surname; }
     void set_ExRes(double exRes) { this->exRes_ = exRes; }
     void set_Avg(double avg) { this->avg_ = avg; }
     void set_Med(double med) { this->med_ = med; }
