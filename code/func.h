@@ -21,7 +21,7 @@ private:
 
 public:
     Student();
-    Student(std::string name, std::string surname);
+    Student(const std::string name, const std::string surname);
     std::vector<int> get_HwRes() const { return hwRes_; }
     double get_exRes() const { return exRes_; }
     double get_Avg() const { return avg_; }

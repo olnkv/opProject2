@@ -1,21 +1,20 @@
 #include "func.h"
+#include "person.h"
 
 const std::vector<std::string> nameList{"Nojus", "Domas", "Arvydas", "Rokas", "Vytautas", "Aurimas", "Joris", "Ramunas", "Povilas", "Mindaugas"};
 const std::vector<std::string> surnameList{"Vaicekauskas", "Kateiva", "Kardauskas", "Zalionis", "Norkus", "Ozelis", "Stasiunas", "Oginskas", "Petrauskas", "Pakuckas"};
 
-Student::Student() : hwRes_({0})
+Student::Student() : Person()
 {
-    name_ = "NeraVardo";
-    surname_ = "NeraPavardes";
+    hwRes_.clear();
     exRes_ = 0;
     avg_ = 0.0;
     med_ = 0.0;
 }
 
-Student::Student(std::string name, std::string surname) : hwRes_({0})
+Student::Student(const std::string name, const std::string surname) : Person(name, surname)
 {
-    name_ = name;
-    surname_ = surname;
+    hwRes_.clear();
     exRes_ = 0;
     avg_ = 0.0;
     med_ = 0.0;
@@ -26,20 +25,16 @@ Student::~Student()
     hwRes_.clear();
 }
 
-Student::Student(const Student &Student_)
+Student::Student(const Student &Student_) : Person(Student_.name_, Student_.surname_)
 {
-    name_ = Student_.name_;
-    surname_ = Student_.surname_;
     hwRes_ = Student_.hwRes_;
     exRes_ = Student_.exRes_;
     avg_ = Student_.avg_;
     med_ = Student_.med_;
 }
 
-Student::Student(Student &&Student_) noexcept
+Student::Student(Student &&Student_) noexcept : Person(std::move(Student_.name_), std::move(Student_.surname_))
 {
-    name_ = std::move(Student_.name_);
-    surname_ = std::move(Student_.surname_);
     hwRes_ = std::move(Student_.hwRes_);
     exRes_ = std::move(Student_.exRes_);
     avg_ = std::move(Student_.avg_);
