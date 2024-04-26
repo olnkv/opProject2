@@ -14,8 +14,6 @@ int main()
     Student Student4(std::move(Student2));
     Student0 = Student1;
     Student0 = std::move(Student4);
-    std::cout<<Student1<<std::endl;
-
     std::cout << "Sveiki!" << std::endl;
     while (true)
         try

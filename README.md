@@ -51,3 +51,5 @@ Pridėtas konteinerio (vector, list, deque) pasirinkimas duomenų apdorojimui.
 Pilnas kodo peržiūrėjimas. Perėjimas nuo struct į class strukturą.
 - Release v1.2 (2024-04-19)
 Realizuotas "Rule of five" ir aprašyti įvesties ir išvesties operatoriai paprastesniam kodo rašymui
+- Release v1.5 (2024-04-19)
+Pridėta bendra abstrakti "Person" klasė, kurios išvestinė dabar yra "Student"
