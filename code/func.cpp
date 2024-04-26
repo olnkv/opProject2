@@ -31,6 +31,7 @@ Student::Student(const Student &Student_) : Person(Student_.name_, Student_.surn
     exRes_ = Student_.exRes_;
     avg_ = Student_.avg_;
     med_ = Student_.med_;
+    std::cout << "Kopijavimo konstruktorius suveike" << std::endl;
 }
 
 Student::Student(Student &&Student_) noexcept : Person(std::move(Student_.name_), std::move(Student_.surname_))
@@ -40,6 +41,7 @@ Student::Student(Student &&Student_) noexcept : Person(std::move(Student_.name_)
     avg_ = std::move(Student_.avg_);
     med_ = std::move(Student_.med_);
     Student_.clear_All();
+     std::cout << "Perkelimo konstruktorius suveike" << std::endl;
 }
 
 Student &Student::operator=(const Student &Student_)
@@ -53,6 +55,7 @@ Student &Student::operator=(const Student &Student_)
         avg_ = Student_.avg_;
         med_ = Student_.med_;
     }
+    std::cout << "Priskyrimo operatorius suveike" << std::endl;
     return *this;
 }
 
@@ -65,6 +68,7 @@ Student &Student::operator=(Student &&Student_) noexcept
     avg_ = std::move(Student_.avg_);
     med_ = std::move(Student_.med_);
     Student_.clear_All();
+    std::cout << "Perkelimo operatorius suveike" << std::endl;
     return *this;
 }
 

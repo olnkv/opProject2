@@ -7,6 +7,14 @@ int main()
     std::vector<Student> best;
     int choice;
 
+    Student Student0;
+    Student Student1("Edvin", "Olenkovic");
+    Student Student2("Vardenis", "Pavardenis");
+    Student Student3(Student1);
+    Student Student4(std::move(Student2));
+    Student0 = Student1;
+    Student0 = std::move(Student4);
+    
     std::cout << "Sveiki!" << std::endl;
     while (true)
         try

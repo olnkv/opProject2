@@ -16,7 +16,6 @@ public:
     inline std::string get_Surname() const { return surname_; }
     void set_Name(std::string name) { this->name_ = name; }
     void set_Surname(std::string surname) { this->surname_ = surname; }
-    //virtual void Print() const = 0;
 };
 
 #endif
