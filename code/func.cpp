@@ -41,7 +41,7 @@ Student::Student(Student &&Student_) noexcept : Person(std::move(Student_.name_)
     avg_ = std::move(Student_.avg_);
     med_ = std::move(Student_.med_);
     Student_.clear_All();
-     std::cout << "Perkelimo konstruktorius suveike" << std::endl;
+    std::cout << "Perkelimo konstruktorius suveike" << std::endl;
 }
 
 Student &Student::operator=(const Student &Student_)
