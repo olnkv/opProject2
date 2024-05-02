@@ -12,6 +12,7 @@
 #include <chrono>
 #include "person.h"
 
+/// @class Student
 /// @brief Studento klasė
 class Student : public Person
 {
@@ -40,10 +41,11 @@ public:
     /// @return Galutinis pagal medianą
     double get_Med() const { return med_; }
     /// @brief Patikrinimas ar namų darbų vektorius yra tuščias
-    /// @return True, jei vektorius tuščias. False, jei vektorius turi elementų
+    /// @retval TRUE vektorius tuščias
+    /// @retval FALSE vektorius turi elementų
     bool hwRes_Empty() const { return hwRes_.empty(); }
     /// @brief Namų darbų vektoriaus didžio gavimas
-    /// @return Namų darbų vektoriaus dydį
+    /// @return Namų darbų vektoriaus dydis
     int hwRes_Size() const { return hwRes_.size(); }
     /// @brief Namų darbų rūšiavimas didėjimo tvarka
     void hw_Sort() { sort(hwRes_.begin(), hwRes_.end()); }
@@ -126,22 +128,26 @@ public:
 /// @brief Studentų palyginimas pagal vardą
 /// @param a Pirmasis studentas
 /// @param b Antrasis studentas
-/// @return True, jei A studento vardas yra žemiau pagal abecėlę nei studento B. False, jei atvirkščiai
+/// @retval TRUE A studento vardas yra žemiau pagal abecėlę nei studento B 
+/// @retval FALSE atvirkščiai
 bool compareName(const Student &a, const Student &b);
 /// @brief Studentų palyginimas pagal pavardę
 /// @param a Pirmasis studentas
 /// @param b Antrasis studentas
-/// @return True, jei A studento pavardė yra žemiau pagal abecėlę nei studento B. False, jei atvirkščiai
+/// @retval TRUE A studento pavardė yra žemiau pagal abecėlę nei studento B
+/// @retval FALSE atvirkščiai
 bool compareSurname(const Student &a, const Student &b);
 /// @brief Studentų palyginimas pagal galutinio vidurkį
 /// @param a Pirmasis studentas
 /// @param b Antrasis studentas
-/// @return True, jei A studento galutinis balas pagal vidurkį yra mažesnis nei studento B. False, jei atvirkščiai
+/// @retval TRUE A studento galutinis balas pagal vidurkį yra mažesnis nei studento B
+/// @retval FALSE atvirkščiai
 bool compareAvg(const Student &a, const Student &b);
 /// @brief Studentų palyginimas pagal galutinio medianą
 /// @param a Pirmasis studentas
 /// @param b Antrasis studentas
-/// @return True, jei A studento galutinis balas pagal medianą yra mažesnis nei studento B. False, jei atvirkščiai
+/// @retval TRUE A studento galutinis balas pagal medianą yra mažesnis nei studento B
+/// @retval FALSE atvirkščiai
 bool compareMed(const Student &a, const Student &b);
 /// @brief Atsitiktinio skaičiaus [1;10] intervale generavimas
 /// @return Atsitiktinis skaičius [1;10] intervale
