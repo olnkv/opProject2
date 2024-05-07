@@ -1,7 +1,6 @@
-mkdir Tests
-mkdir Debug
-cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ .
-cmake --install .
+git clone https://github.com/google/googletest.git
+mkdir build
+cd build
+cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ ../
 cmake --build .
-cd Tests
-testout.exe
+Tests\testout.exe
