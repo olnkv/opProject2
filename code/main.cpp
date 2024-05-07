@@ -1,4 +1,3 @@
-// cd /c/Users/Edwin/Desktop/opProject/code
 #include "func.h"
 
 int main()

@@ -1,31 +1,41 @@
 # Objektinio Programavimo Projektas
 Ši programa skirta studentų duomenų nuskaitymui - vardas, pavardė, namų darbų rezultatai ir egzamino rezultatas, ir galutinio balo apskaičiavimas pagal nurodytus kriterijus.
 
-## Įdiegimas (Mac)
-1. Atidarykite sistemos terminalą
-2. Įdiekite "Brew" (https://brew.sh/)
-3. Įdiekite g++ kompiliatorių, įvesdami "brew install gcc"
-4. Įdiekite makefile, įvesdami "brew install make"
-5. Eikite į "code" katalogą, pavyzdžiui, įvedę "cd Desktop/User/opProject/code"
-6. Įveskite "make", kad sukurtumėte išvesties failus
-7. Įveskite "./output", kad paleistumėte programą
-8. Jei norite ištrinti išvesties failus, įveskite “make clean”
 ## Įdiegimas (Windows)
 1. Atsisiųskite ir įdiekite Msys2 (https://www.msys2.org/)
 2. Atidarykite Msys2 terminalą
 3. Įdiekite g++ kompiliatorių, įvesdami “pacman -S g++”
-4. Įdiekite makefile, įvesdami “pacman -S make”
-5. Eikite į “code” katalogą, pavyzdžiui, įvedę: “cd /c/Users/Name/Desktop/opProject/code”
-6. Įveskite “make”, kad sukurtumėte išvesties failus
-7. Įveskite “./output”, kad paleistumėte programą
-8. Jei norite ištrinti išvesties failus, įveskite “make clean”
+4. Atsisiųskite ir įdiekite CMake (https://cmake.org/download/)
+5. Eikite į “code” katalogą
+6. Programą paleisktie paleidus run.bat failą
 ## Naudojimas
 1. Paleiskite programą.
 2. Pasirinkite programos eigos būdą įvesdami atitinkamus skaitmenys
 3. Mielo naudojimosi!
 ## Autorius
 Šį programinį produktą sukūrė Edvin Olenkovič
-## Aprašymas apie perdengtus metodus (v1.2)
+## Testavimai
+- Intel(R) Core(TM) i7-9700K CPU @ 3.60GHz
+- RAM(16,0 GB)
+- Samsung SSD 970 EVO Plus 500GB
+### Class (nuo v1.1)
+                                                 100000 Studentų
+
+|                       | -O1                           | -O2                           | -O3                           |
+|-----------------------|-------------------------------|-------------------------------|-------------------------------|
+| Skaitymas iš failo =  | 0,3567s                       | 0,372s                        | 0,3472s                       |
+| Studentų skirstymas = | 0,0748s                       | 0,0606s                       | 0,065s                        |
+| .exe failo dydis =    | 203Kb                         | 197Kb                         | 207Kb                         |
+
+                                                 1000000 Studentų
+
+|                       | -O1                           | -O2                           | -O3                           |
+|-----------------------|-------------------------------|-------------------------------|-------------------------------|
+| Skaitymas iš failo =  | 3,2986s                       | 3,554667s                     | 3,3614s                       |
+| Studentų skirstymas = | 0,7604s                       | 0,861333s                     | 0,8094s                       |
+| .exe failo dydis =    | 203Kb                         | 197Kb                         | 207Kb                         |
+
+## Aprašymas apie perdengtus metodus
 ### Įvesties perdengimo metodai
 - Duomenų įvestis rankiniu ir automatinių būdu įvyksta, kai duomenų skaitymui yra naudojamas `istream` objektas (šios programos atveju `std::cin`) t.y. programos eigos pasirinkimas - `"1" - Įvedimas ranka` ir `"2" - Generavimas`
 - Duomenų įvestis iš failo įvyksta, kai duomenų skaitymui naudojamas `istringstream` objektas. t.y. programos eigos pasirinkimas - `"3" - Skaitymas iš failo`
@@ -53,3 +63,5 @@ Pilnas kodo peržiūrėjimas. Perėjimas nuo struct į class strukturą.
 Realizuotas "Rule of five" ir aprašyti įvesties ir išvesties operatoriai paprastesniam kodo rašymui
 - Release v1.5 (2024-04-19)
 Pridėta bendra abstrakti "Person" klasė, kurios išvestinė dabar yra "Student"
+- Release v2.0 (2024-05-03)
+Sukurta HTML dokumentacija. Realizuoti Unit Test'ai su GoogleTest.
