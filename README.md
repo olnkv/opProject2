@@ -4,7 +4,7 @@
 ## Įdiegimas (Windows)
 1. Atsisiųskite ir įdiekite Msys2 (https://www.msys2.org/)
 2. Atidarykite Msys2 terminalą
-3. Įdiekite g++ kompiliatorių, įvesdami “pacman -S g++”
+3. Įdiekite kompiliatorių, įvesdami “pacman -S gcc”
 4. Atsisiųskite ir įdiekite CMake (https://cmake.org/download/)
 5. Eikite į “code” katalogą
 6. Programą paleisktie paleidus run.bat failą
