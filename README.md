@@ -5,7 +5,7 @@
 1. Atsisiųskite ir įdiekite Git (https://git-scm.com/downloads)
 2. Atsisiųskite ir įdiekite Msys2 (https://www.msys2.org/)
 3. Atidarykite Msys2 terminalą
-4. Įdiekite paketus, įvesdami "pacman -S mingw-w64-x86_64-toolchain"
+4. Įdiekite paketus, įvesdami "pacman -S mingw-w64-x86_64-gcc" ir "pacman -S mingw-w64-x86_64-ninja"
 5. Atsisiųskite ir įdiekite CMake (https://cmake.org/download/) pasirinkus "Add CMake to the system PATH for all users"
 6. Eikite į “code” katalogą
 7. Programą paleisktie paleidus run.bat failą
