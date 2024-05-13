@@ -3,8 +3,6 @@ project(opProject)
 
 add_subdirectory(googletest)
 
-find_package(GTest REQUIRED)
-
 file(GLOB MAIN "main.cpp")
 file(GLOB FUNC "func.cpp")
 file(GLOB TEST "test.cpp")
