@@ -123,6 +123,7 @@ public:
     /// @param Student_ Išvedamas objektas
     /// @return Išvesties ofstream objektas
     friend std::ofstream &operator<<(std::ofstream &output, const Student &Student_);
+    virtual void whoAmI() {std::cout<<"Studento klase"<<std::endl;}
 };
 
 /// @brief Studentų palyginimas pagal vardą

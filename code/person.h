@@ -9,14 +9,7 @@ class Person
 {
 protected:
     std::string name_, surname_;
-    /// @brief Default konstruktorius
-    Person() : name_(""), surname_(""){};
-    /// @brief Žmogaus klasės konstruktorius
-    /// @param name Vardas
-    /// @param surname Pavardė
-    Person(const std::string &name, const std::string &surname) : name_(name), surname_(surname){};
-    /// @brief Žmogus klasės destruktorius
-    virtual ~Person(){};
+    
 
 public:
     /// @brief Vardo gavimas
@@ -31,6 +24,15 @@ public:
     /// @brief Pavardės nustatymas
     /// @param surname 
     void set_Surname(std::string surname) { this->surname_ = surname; }
+    /// @brief Default konstruktorius
+    Person() : name_(""), surname_(""){};
+    /// @brief Žmogaus klasės konstruktorius
+    /// @param name Vardas
+    /// @param surname Pavardė
+    Person(const std::string &name, const std::string &surname) : name_(name), surname_(surname){};
+    /// @brief Žmogus klasės destruktorius
+    virtual ~Person(){};
+    virtual void whoAmI() = 0;
 };
 
 #endif
