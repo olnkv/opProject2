@@ -2,10 +2,9 @@
 Ši programa skirta studentų duomenų nuskaitymui - vardas, pavardė, namų darbų rezultatai ir egzamino rezultatas, ir galutinio balo apskaičiavimas pagal nurodytus kriterijus.
 
 ## Įdiegimas (Windows)
-1. Atsisiųskite ir įdiekite Msys2 (https://www.msys2.org/)
-2. Atidarykite Msys2 terminalą
-3. Įdiekite g++ kompiliatorių, įvesdami “pacman -S g++”
-4. Atsisiųskite ir įdiekite CMake (https://cmake.org/download/)
+1. Atsisiųskite ir įdiekite Git (https://git-scm.com/downloads)
+2. Atsisiųskite ir įdiekite MinGW (https://sourceforge.net/projects/mingw/) su "mingw32-gcc-g++" ir "mingw32-make" paketais.
+4. Atsisiųskite ir įdiekite CMake (https://cmake.org/download/) pasirinkus "Add CMake to the system PATH for all users"
 5. Eikite į “code” katalogą
 6. Programą paleisktie paleidus run.bat failą
 ## Naudojimas
