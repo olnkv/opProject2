@@ -18,11 +18,13 @@ Student::Student(const std::string name, const std::string surname) : Person(nam
     exRes_ = 0;
     avg_ = 0.0;
     med_ = 0.0;
+     std::cout << "Konstruktorius suveike" << std::endl;
 }
 
 Student::~Student()
 {
     hwRes_.clear();
+    std::cout << "Destruktorius suveike" << std::endl;
 }
 
 Student::Student(const Student &Student_) : Person(Student_.name_, Student_.surname_)

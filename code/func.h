@@ -60,6 +60,7 @@ public:
     friend std::ostream& operator<<(std::ostream& output, const Student &Student_);
     friend std::ofstream& operator<<(std::ofstream& output, const Student &Student_);
 
+    virtual void whoAmI() {std::cout<<"Studento klase"<<std::endl;}
 };
 
 bool compareName(const Student &a, const Student &b);

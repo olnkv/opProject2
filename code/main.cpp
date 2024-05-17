@@ -7,6 +7,7 @@ int main()
     std::vector<Student> best;
     int choice;
 
+    //Person person0;
     Student Student0;
     Student Student1("Edvin", "Olenkovic");
     Student Student2("Vardenis", "Pavardenis");
@@ -76,7 +77,7 @@ int main()
                 Results(studVector);
             if (choice == 7)
                 break;
-            system("pause");
+            //system("pause");
         }
         catch (const std::exception &e)
         {
